@@ -4,7 +4,6 @@ import queue
 
 def distance(adj, cost, s, t):
     dist = [float('inf') for n in adj]
-    prev = [None for n in adj]
     dist[s] = 0
     q = queue.PriorityQueue()
     for n, distance in enumerate(dist):
@@ -17,7 +16,6 @@ def distance(adj, cost, s, t):
             alt = dist[u] + cost[u][i]
             if alt < dist[v]:
                 dist[v] = alt
-                prev[v] = u
                 q.put((alt, v))
     return -1
 

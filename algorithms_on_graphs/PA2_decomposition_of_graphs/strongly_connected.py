@@ -42,6 +42,7 @@ def number_of_strongly_connected_components(adj):
             dfs(n, visited, transpose)
     return result
 
+
 if __name__ == '__main__':
     input = sys.stdin.read()
     data = list(map(int, input.split()))

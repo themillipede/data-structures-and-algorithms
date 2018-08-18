@@ -3,7 +3,6 @@ import sys
 
 def negative_cycle(adj, cost):
     dist = [float('inf') for n in adj]
-    prev = [None for n in adj]
     dist[0] = 0
     for _ in range(len(adj) - 1):
         for u, vertices in enumerate(adj):
@@ -11,7 +10,6 @@ def negative_cycle(adj, cost):
                 alt = dist[u] + cost[u][i]
                 if alt < dist[v]:
                     dist[v] = alt
-                    prev[v] = u
     for u, vertices in enumerate(adj):
         for i, v in enumerate(vertices):
             if dist[u] + cost[u][i] < dist[v]:
