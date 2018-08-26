@@ -22,7 +22,7 @@ def get_fibonacci(n):
     return curr
 
 
-def get_pisano_period(m):
+def get_pisano_period_length(m):
     pisano_period = []
     n = 2
     prev = 0
@@ -35,7 +35,7 @@ def get_pisano_period(m):
 
 
 def get_fibonacci_huge(n, m):
-    len_pisano_period = get_pisano_period(m)
+    len_pisano_period = get_pisano_period_length(m)
     remainder = n % len_pisano_period
     return get_fibonacci(remainder) % m
 
