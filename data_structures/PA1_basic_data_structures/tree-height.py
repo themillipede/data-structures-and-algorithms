@@ -45,5 +45,4 @@ def main():
   tree.read()
   print(tree.compute_height())
 
-
 threading.Thread(target=main).start()
