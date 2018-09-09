@@ -12,7 +12,7 @@ def IsBinarySearchTree(tree):
     min_higher = float('inf')
 
     def is_bst(tree, n, max_lower, min_higher):
-        if n == -1:
+        if n == -1 or not tree:
             return True
         if tree[n][0] < max_lower or tree[n][0] > min_higher:
             return False
