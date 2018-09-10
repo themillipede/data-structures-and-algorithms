@@ -7,6 +7,7 @@ NA = -1
 class Node:
     def __init__(self):
         self.next = [NA] * 4
+        self.patternEnd = False
 
 
 def build_trie(patterns):
@@ -14,14 +15,19 @@ def build_trie(patterns):
     node_num = 0
     for string in patterns:
         curr_node = 0
-        for i in string:
+        for i, char in enumerate(string):
             if curr_node not in tree:
                 tree[curr_node] = {}
-            if i in tree[curr_node]:
-                curr_node = tree[curr_node][i]
+            if char in tree[curr_node]:
+                if i == len(string) - 1:
+                    tree[curr_node][char][1] = 1
+                curr_node = tree[curr_node][char][0]
             else:
                 node_num += 1
-                tree[curr_node][i] = node_num
+                if i == len(string) - 1:
+                    tree[curr_node][char] = [node_num, 1]
+                else:
+                    tree[curr_node][char] = [node_num, 0]
                 curr_node = node_num
     return tree
 
@@ -32,10 +38,12 @@ def solve(text, n, patterns):
     for i, _ in enumerate(text):
         curr_node = 0
         char_index = i
+        is_end = 0
         while curr_node in trie and char_index < len(text) and text[char_index] in trie[curr_node]:
-            curr_node = trie[curr_node][text[char_index]]
+            is_end = trie[curr_node][text[char_index]][1]
+            curr_node = trie[curr_node][text[char_index]][0]
             char_index += 1
-        if curr_node not in trie:
+        if curr_node not in trie or is_end == 1:
             result.append(i)
     return result
 
