@@ -8,7 +8,7 @@ def InverseBWT(bwt):
     first_to_last = {f: l for f, l in zip(first, last)}
     next = first[0]
     result = ''
-    for i in range(len(bwt)):
+    for _ in range(len(bwt)):
         result += next[0]
         next = first_to_last[next]
     text = result[::-1]
