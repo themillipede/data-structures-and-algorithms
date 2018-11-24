@@ -13,7 +13,8 @@ class JobQueue:
     def _sift_down(self, i):
         minindex = i
         leftchild = 2 * i + 1
-        if self.pq[leftchild][1] <= self.pq[minindex][1] and self.pq[leftchild][0] < self.pq[minindex][0]:
+        if (leftchild < len(self.pq) and
+            self.pq[leftchild][1] <= self.pq[minindex][1] and self.pq[leftchild][0] < self.pq[minindex][0]):
             minindex = leftchild
         rightchild = 2 * i + 2
         if (rightchild < len(self.pq) and
@@ -21,8 +22,7 @@ class JobQueue:
             minindex = rightchild
         if i != minindex:
             self.pq[i], self.pq[minindex] = self.pq[minindex], self.pq[i]
-            if minindex * 2 + 2 <= len(self.pq):
-                self._sift_down(minindex)
+            self._sift_down(minindex)
 
     def assign_jobs(self):
         self.assigned_workers = [None] * len(self.jobs)
