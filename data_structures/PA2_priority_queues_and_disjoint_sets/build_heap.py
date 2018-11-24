@@ -18,7 +18,7 @@ class HeapBuilder:
     def sift_down(self, i):
         minindex = i
         leftchild = 2 * i + 1
-        if self._data[leftchild] < self._data[minindex]:
+        if leftchild < len(self._data) and self._data[leftchild] < self._data[minindex]:
             minindex = leftchild
         rightchild = 2 * i + 2
         if rightchild < len(self._data) and self._data[rightchild] < self._data[minindex]:
@@ -26,8 +26,7 @@ class HeapBuilder:
         if i != minindex:
             self._data[i], self._data[minindex] = self._data[minindex], self._data[i]
             self._swaps.append((i, minindex))
-            if minindex * 2 + 2 <= len(self._data):
-                self.sift_down(minindex)
+            self.sift_down(minindex)
 
     def GenerateSwaps(self):
         n = len(self._data)
