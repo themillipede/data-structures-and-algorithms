@@ -2,7 +2,7 @@
 import sys
 
 
-def get_change_slower(m, min_num_coins=None):
+def get_change_recursive_dp(m, min_num_coins=None):
     if not min_num_coins:
         min_num_coins = {0: 0}
     if m in min_num_coins:
@@ -12,7 +12,10 @@ def get_change_slower(m, min_num_coins=None):
     elif m in (4, 3, 1):
         return 1
     else:
-        min_num_coins[m] = 1 + min(get_change(m - 4), get_change(m - 3), get_change(m - 1))
+        min_num_coins[m] = 1 + min(
+            get_change_recursive_dp(m - 4, min_num_coins),
+            get_change_recursive_dp(m - 3, min_num_coins),
+            get_change_recursive_dp(m - 1, min_num_coins))
         return min_num_coins[m]
 
 
