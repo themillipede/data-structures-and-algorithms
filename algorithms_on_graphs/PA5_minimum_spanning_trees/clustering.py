@@ -26,6 +26,7 @@ def union(i, j, parent, rank):
 
 
 def clustering(x, y, k):
+    n = len(x)
     parent = [i for i in range(n)]
     rank = [1 for _ in range(n)]
     edges = []
@@ -41,8 +42,7 @@ def clustering(x, y, k):
         idx += 1
     while find(edges[idx][1], parent) == find(edges[idx][2], parent):
         idx += 1
-    shortest_distance = math.sqrt(edges[idx][0])
-    return shortest_distance
+    return math.sqrt(edges[idx][0])
 
 
 if __name__ == '__main__':
