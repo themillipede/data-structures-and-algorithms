@@ -36,9 +36,10 @@ def clustering(x, y, k):
             edges.append([squared_dist, i, j])
     edges.sort()
     idx = 0
-    while len(set(parent)) > k:
+    while n > k:
         if find(edges[idx][1], parent) != find(edges[idx][2], parent):
             union(edges[idx][1], edges[idx][2], parent, rank)
+            n -= 1
         idx += 1
     while find(edges[idx][1], parent) == find(edges[idx][2], parent):
         idx += 1
