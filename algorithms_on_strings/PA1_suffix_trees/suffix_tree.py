@@ -2,43 +2,52 @@
 import sys
 
 
+def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):
+    last_added_node = newest_node
+    j = suffix_start_idx
+    node = 0
+    while j < len(text):
+        if node not in tree:
+            tree[node] = {}
+        first_letter_of_edge = {text[edge[0]]: edge for edge in tree[node]}
+        letter = text[j]
+        if letter in first_letter_of_edge:
+            relevant_edge = first_letter_of_edge[letter]
+            edge_idx = relevant_edge[0]
+            edge_length = relevant_edge[1]
+            dest_node = tree[node][relevant_edge]
+            i = edge_idx
+            l = 0
+            start_idx = i
+            while text[i] == text[j] and l < edge_length:
+                i += 1
+                j += 1
+                l += 1
+            if text[i] != text[j] and l < edge_length:
+                first_new_node = last_added_node + 1
+                second_new_node = first_new_node + 1
+                first_edge = (start_idx, i - start_idx)
+                second_edge = (i, edge_length - first_edge[1])
+                tree[node][first_edge] = first_new_node
+                tree[first_new_node] = {second_edge: dest_node}
+                tree[first_new_node][j, len(text) - j] = second_new_node
+                del tree[node][relevant_edge]
+                last_added_node = second_new_node
+                j = len(text)
+            elif l >= edge_length:
+                node = dest_node
+        else:
+            last_added_node += 1
+            tree[node][(j, len(text) - j)] = last_added_node
+            j = len(text)
+    return last_added_node
+
+
 def build_tree(text):
     tree = dict()
-    node_num = 0
-    for suffix_start_index, _ in enumerate(text):
-        curr_node = 0
-        j = suffix_start_index
-        while j < len(text):
-            if curr_node not in tree:
-                tree[curr_node] = {}
-            letter_to_edge = {text[edge[0]]: edge for edge in tree[curr_node]}
-            if text[j] in letter_to_edge:
-                suffix_start = letter_to_edge[text[j]][0]
-                suffix_length = letter_to_edge[text[j]][1]
-                k = suffix_start
-                l = 0
-                while text[j] == text[k] and l < suffix_length:
-                    j += 1
-                    k += 1
-                    l += 1
-                if l == suffix_length:
-                    curr_node = tree[curr_node][(suffix_start, suffix_length)]
-                else:
-                    node_to_split = tree[curr_node][(suffix_start, suffix_length)]
-                    tree[curr_node][(suffix_start, l)] = node_to_split
-                    if node_to_split not in tree:
-                        tree[node_to_split] = {}
-                    node_num += 1
-                    tree[node_to_split][(k, suffix_length - l)] = node_num
-                    node_num += 1
-                    tree[node_to_split][(j, len(text) - j)] = node_num
-                    del tree[curr_node][(suffix_start, letter_to_edge[text[suffix_start]][1])]
-                    curr_node = node_num
-                    j += suffix_length - (k + l)
-            else:
-                node_num += 1
-                tree[curr_node][(j, len(text) - j)] = node_num
-                j = len(text)
+    newest_node = 0
+    for suffix_start_idx, _ in enumerate(text):
+        newest_node = incorporate_latest_substring(text, suffix_start_idx, tree, newest_node)
     return tree
 
 
@@ -50,17 +59,15 @@ def build_suffix_tree(text):
     """
     result = []
     suffix_tree = build_tree(text)
-    print(suffix_tree)
     for node, edges in suffix_tree.items():
         for edge in edges:
             start = edge[0]
             length = edge[1]
             result.append((text[start:start + length], start))
     return result
-print(build_suffix_tree('ATAAATG$'))
-'''
+
+
 if __name__ == '__main__':
     text = sys.stdin.readline().strip()
     result = build_suffix_tree(text)
     print("\n".join(result))
-'''
