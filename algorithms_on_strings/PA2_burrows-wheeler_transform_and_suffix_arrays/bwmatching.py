@@ -28,7 +28,7 @@ def preprocess_bwt(bwt):
     return starts, occ_counts_before
 
 
-def count_occurrences(pattern, bwt, starts, occ_count_before):
+def count_occurrences(pattern, bwt, starts, occ_counts_before):
     """
     Compute the number of occurrences of string pattern in the text given only
     Burrows-Wheeler Transform bwt of the text and additional information we
