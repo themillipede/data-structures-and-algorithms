@@ -20,11 +20,13 @@ def preprocess_bwt(bwt):
             starts[char] = i
             last_char = char
     occ_counts_before = {c: {i: 0 for i in range(len(bwt) + 1)} for c in starts}
+
     for i, char in enumerate(bwt, start=1):
         occ_counts_before[char][i] = occ_counts_before[char][i - 1] + 1
         for c in starts:
             if c != char:
                 occ_counts_before[c][i] = occ_counts_before[c][i - 1]
+
     return starts, occ_counts_before
 
 
