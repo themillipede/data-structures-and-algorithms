@@ -27,47 +27,47 @@ def read_equation():
     return Equation(a, b)
 
 
-def select_pivot_element(a, used_rows, used_columns):
-    pivot_element = Position(0, 0)
-    while used_rows[pivot_element.row]:
-        pivot_element.row += 1
-    while used_columns[pivot_element.column]:
-        pivot_element.column += 1
-    if a[pivot_element.row][pivot_element.column] == 0:
-        for row in range(len(a)):
-            for col in range(len(a[0])):
-                if not used_rows[pivot_element.row] and not used_columns[pivot_element.column] and a[row][col] != 0:
-                    pivot_element = Position(row, col)
-                    return pivot_element
-    return pivot_element
+def select_pivot(a, used_rows, used_columns):
+    pivot = Position(0, 0)
+    while used_rows[pivot.row]:
+        pivot.row += 1
+    while used_columns[pivot.column]:
+        pivot.column += 1
+    min_unused_row = pivot.row
+    while a[pivot.row][pivot.column] == 0 and pivot.row + 1 < len(a):
+        pivot.row += 1
+        if a[pivot.row][pivot.column] == 0 and pivot.column + 1 < len(a[0]):
+            pivot.column += 1
+            pivot.row = min_unused_row
+    return pivot
 
 
-def swap_lines(a, b, used_rows, pivot_element):
-    a[pivot_element.column], a[pivot_element.row] = a[pivot_element.row], a[pivot_element.column]
-    b[pivot_element.column], b[pivot_element.row] = b[pivot_element.row], b[pivot_element.column]
-    used_rows[pivot_element.column], used_rows[pivot_element.row] =\
-        used_rows[pivot_element.row], used_rows[pivot_element.column]
-    pivot_element.row = pivot_element.column
+def swap_lines(a, b, used_rows, pivot):
+    a[pivot.column], a[pivot.row] = a[pivot.row], a[pivot.column]
+    b[pivot.column], b[pivot.row] = b[pivot.row], b[pivot.column]
+    used_rows[pivot.column], used_rows[pivot.row] = used_rows[pivot.row], used_rows[pivot.column]
+    pivot.row = pivot.column
 
 
-def process_pivot_element(a, b, pivot_element):
-    pivot_value = a[pivot_element.row][pivot_element.column]
-    if pivot_value not in (0, 1):
+def process_pivot(a, b, pivot):
+    pivot_value = a[pivot.row][pivot.column]
+    if pivot_value == 0:
+        return
+    if pivot_value != 1:
         for col in range(len(b)):
-            a[pivot_element.row][col] /= pivot_value
-        b[pivot_element.row] /= pivot_value
+            a[pivot.row][col] /= pivot_value
+        b[pivot.row] /= pivot_value
     for row in range(len(a)):
-        if row != pivot_element.row:
-            multiplier = a[row][pivot_element.column]
-            if multiplier != 0:
-                for col in range(len(b)):
-                    a[row][col] -= multiplier * a[pivot_element.row][col]
-                b[row] -= multiplier * b[pivot_element.row]
+        if row != pivot.row:
+            multiplier = a[row][pivot.column]
+            for col in range(len(b)):
+                a[row][col] -= multiplier * a[pivot.row][col]
+            b[row] -= multiplier * b[pivot.row]
 
 
-def mark_pivot_element_used(pivot_element, used_rows, used_columns):
-    used_rows[pivot_element.row] = True
-    used_columns[pivot_element.column] = True
+def mark_pivot_used(pivot, used_rows, used_columns):
+    used_rows[pivot.row] = True
+    used_columns[pivot.column] = True
 
 
 def solve_equation(equation):
@@ -77,10 +77,10 @@ def solve_equation(equation):
     used_columns = [False] * size
     used_rows = [False] * size
     for step in range(size):
-        pivot_element = select_pivot_element(a, used_rows, used_columns)
-        swap_lines(a, b, used_rows, pivot_element)
-        process_pivot_element(a, b, pivot_element)
-        mark_pivot_element_used(pivot_element, used_rows, used_columns)
+        pivot = select_pivot(a, used_rows, used_columns)
+        swap_lines(a, b, used_rows, pivot)
+        process_pivot(a, b, pivot)
+        mark_pivot_used(pivot, used_rows, used_columns)
     return b
 
 
