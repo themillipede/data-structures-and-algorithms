@@ -73,19 +73,15 @@ def solve_equation(equation):
     return b
   
 
-def satisfies_inequalities(solution, A, b, indices):
-    A_rows = A[indices]
-    b_rows = b[indices]
-    if not np.all(np.dot(A_rows, solution) <= b_rows):
+def satisfies_inequalities(solution, A, b):
+    if not np.all(np.dot(A, solution) <= b):
         return False
     return True
 
 
 def solve_diet_problem(n, m, A, b, c):
-    ineq_matrix = -np.identity(m)
-    ineq_vector = [0 for _ in range(m)]
-    A_ext = np.vstack([np.array(A), ineq_matrix, np.array([[1 for _ in range(m)]])])
-    b_ext = np.array(b + ineq_vector + [1e9])
+    A_ext = np.vstack([np.array(A), -np.identity(m), np.ones(m)]).astype(float)
+    b_ext = np.array(b + [0] * m + [1e9]).astype(float)
     ineq_indices = list(itertools.combinations(range(n + m + 1), m))
     candidate_solutions = []
     for i, index_set in enumerate(ineq_indices):
@@ -93,8 +89,7 @@ def solve_diet_problem(n, m, A, b, c):
         b_rows = b_ext[list(index_set)]
         equation = Equation(A_rows, b_rows)
         solution = solve_equation(equation)
-        other_indices = list(set(range(n + m + 1)) - set(index_set))
-        if satisfies_inequalities(solution, A_ext, b_ext, other_indices):
+        if satisfies_inequalities(solution, A_ext, b_ext):
             candidate_solutions.append(solution)
     if len(candidate_solutions) == 0:
         return -1, None
