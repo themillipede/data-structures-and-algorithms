@@ -5,8 +5,6 @@ import itertools
 import numpy as np
 
 
-########################
-
 class Equation:
     def __init__(self, a, b):
         self.a = a
@@ -19,47 +17,44 @@ class Position:
         self.row = row
 
 
-def select_pivot_element(a, used_rows, used_columns):
-    pivot_element = Position(0, 0)
-    while used_rows[pivot_element.row]:
-        pivot_element.row += 1
-    while used_columns[pivot_element.column]:
-        pivot_element.column += 1
-    if a[pivot_element.row][pivot_element.column] == 0:
-        for row in range(len(a)):
-            for col in range(len(a[0])):
-                if not used_rows[pivot_element.row] and not used_columns[pivot_element.column] and a[row][col] != 0:
-                    pivot_element = Position(row, col)
-                    return pivot_element
-    return pivot_element
+def select_pivot(a, used_rows, used_columns):
+    pivot = Position(0, 0)
+    while used_columns[pivot.column]:
+        pivot.column += 1
+    potential_pivot_rows = [i for i in range(pivot.row, len(a)) if not used_rows[i]]
+    pivot.row = max(potential_pivot_rows, key=lambda row: abs(a[row][pivot.column]))
+    if a[pivot.row][pivot.column] == 0:
+        used_columns[pivot.column] = True
+        pivot = None
+    return pivot
 
 
-def swap_lines(a, b, used_rows, pivot_element):
-    a[pivot_element.column], a[pivot_element.row] = a[pivot_element.row], a[pivot_element.column]
-    b[pivot_element.column], b[pivot_element.row] = b[pivot_element.row], b[pivot_element.column]
-    used_rows[pivot_element.column], used_rows[pivot_element.row] =\
-        used_rows[pivot_element.row], used_rows[pivot_element.column]
-    pivot_element.row = pivot_element.column
+def swap_lines(a, b, used_rows, pivot):
+    a[pivot.column], a[pivot.row] = a[pivot.row], a[pivot.column].copy()
+    b[pivot.column], b[pivot.row] = b[pivot.row], b[pivot.column].copy()
+    used_rows[pivot.column], used_rows[pivot.row] = used_rows[pivot.row], used_rows[pivot.column]
+    pivot.row = pivot.column
 
 
-def process_pivot_element(a, b, pivot_element):
-    pivot_value = a[pivot_element.row][pivot_element.column]
-    if pivot_value not in (0, 1):
-        for col in range(len(b)):
-            a[pivot_element.row][col] /= pivot_value
-        b[pivot_element.row] /= pivot_value
+def process_pivot(a, b, pivot):
+    pivot_value = a[pivot.row][pivot.column]
+    if pivot_value == 0:
+        return
+    if pivot_value != 1:
+        for col in range(pivot.column, len(b)):
+            a[pivot.row][col] /= pivot_value
+        b[pivot.row] /= pivot_value
     for row in range(len(a)):
-        if row != pivot_element.row:
-            multiplier = a[row][pivot_element.column]
-            if multiplier != 0:
-                for col in range(len(b)):
-                    a[row][col] -= multiplier * a[pivot_element.row][col]
-                b[row] -= multiplier * b[pivot_element.row]
+        if row != pivot.row:
+            multiplier = a[row][pivot.column]
+            for col in range(pivot.column, len(b)):
+                a[row][col] -= multiplier * a[pivot.row][col]
+            b[row] -= multiplier * b[pivot.row]
 
 
-def mark_pivot_element_used(pivot_element, used_rows, used_columns):
-    used_rows[pivot_element.row] = True
-    used_columns[pivot_element.column] = True
+def mark_pivot_used(pivot, used_rows, used_columns):
+    used_rows[pivot.row] = True
+    used_columns[pivot.column] = True
 
 
 def solve_equation(equation):
@@ -69,14 +64,13 @@ def solve_equation(equation):
     used_columns = [False] * size
     used_rows = [False] * size
     for step in range(size):
-        pivot_element = select_pivot_element(a, used_rows, used_columns)
-        swap_lines(a, b, used_rows, pivot_element)
-        process_pivot_element(a, b, pivot_element)
-        mark_pivot_element_used(pivot_element, used_rows, used_columns)
-    print(a)
+        pivot = select_pivot(a, used_rows, used_columns)
+        if not pivot:
+            continue
+        swap_lines(a, b, used_rows, pivot)
+        process_pivot(a, b, pivot)
+        mark_pivot_used(pivot, used_rows, used_columns)
     return b
-
-########################
   
 
 def satisfies_inequalities(solution, A, b, indices):
@@ -87,23 +81,19 @@ def satisfies_inequalities(solution, A, b, indices):
     return True
 
 
-def calculate_pleasure(solution, c):
-    return np.dot(solution, c)
-
-
 def solve_diet_problem(n, m, A, b, c):
     ineq_matrix = -np.identity(m)
     ineq_vector = [0 for _ in range(m)]
-    A_ext = np.vstack([np.array(A), ineq_matrix])
-    b_ext = np.array(b + ineq_vector)
-    ineq_indices = list(itertools.combinations(range(n + m), m))
+    A_ext = np.vstack([np.array(A), ineq_matrix, np.array([[1 for _ in range(m)]])])
+    b_ext = np.array(b + ineq_vector + [1e9])
+    ineq_indices = list(itertools.combinations(range(n + m + 1), m))
     candidate_solutions = []
     for i, index_set in enumerate(ineq_indices):
         A_rows = A_ext[list(index_set)]
         b_rows = b_ext[list(index_set)]
         equation = Equation(A_rows, b_rows)
-        solution = np.array(solve_equation(equation))
-        other_indices = list(set(range(n + m)) - set(index_set))
+        solution = solve_equation(equation)
+        other_indices = list(set(range(n + m + 1)) - set(index_set))
         if satisfies_inequalities(solution, A_ext, b_ext, other_indices):
             candidate_solutions.append(solution)
     if len(candidate_solutions) == 0:
@@ -111,7 +101,7 @@ def solve_diet_problem(n, m, A, b, c):
     max_pleasure = float('-inf')
     max_idx = None
     for i, solution in enumerate(candidate_solutions):
-        pleasure = calculate_pleasure(solution, c)
+        pleasure = np.dot(solution, c)
         if pleasure > max_pleasure:
             max_pleasure = pleasure
             max_idx = i
@@ -120,17 +110,12 @@ def solve_diet_problem(n, m, A, b, c):
     return 0, candidate_solutions[max_idx]
 
 
-n, m = 1, 3
-A = [[0, 0, 1]]
-b = [3]
-c = [1, 1, 1]
-
-#n, m = list(map(int, stdin.readline().split()))
-#A = []
-#for i in range(n):
-#    A += [list(map(int, stdin.readline().split()))]
-#b = list(map(int, stdin.readline().split()))
-#c = list(map(int, stdin.readline().split()))
+n, m = list(map(int, stdin.readline().split()))
+A = []
+for i in range(n):
+    A += [list(map(int, stdin.readline().split()))]
+b = list(map(int, stdin.readline().split()))
+c = list(map(int, stdin.readline().split()))
 
 anst, ansx = solve_diet_problem(n, m, A, b, c)
 
@@ -141,4 +126,3 @@ if anst == 0:
     print(' '.join(list(map(lambda x : '%.18f' % x, ansx))))
 if anst == 1:
     print("Infinity")
-    
