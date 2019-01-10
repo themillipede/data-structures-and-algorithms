@@ -39,21 +39,6 @@ def select_pivot(a, used_rows, used_columns):
     return pivot
 
 
-def select_pivot_alternative(a, used_rows, used_columns):
-    pivot = Position(0, 0)
-    while pivot.column < len(a[0]) and used_columns[pivot.column]:
-        pivot.column += 1
-    potential_pivot_rows = [i for i in range(pivot.row, len(a)) if not used_rows[i]]
-    while pivot.column < len(a[0]) and pivot.row < len(a):
-        pivot.row = max(potential_pivot_rows, key=lambda x: abs(a[x][pivot.column]))
-        if a[pivot.row][pivot.column] == 0:
-            used_columns[pivot.column] = True
-            pivot.column += 1
-        else:
-            return pivot
-    return
-
-
 def swap_lines(a, b, used_rows, pivot):
     a[pivot.column], a[pivot.row] = a[pivot.row], a[pivot.column]
     b[pivot.column], b[pivot.row] = b[pivot.row], b[pivot.column]
