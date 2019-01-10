@@ -29,17 +29,29 @@ def read_equation():
 
 def select_pivot(a, used_rows, used_columns):
     pivot = Position(0, 0)
-    while used_rows[pivot.row]:
-        pivot.row += 1
     while used_columns[pivot.column]:
         pivot.column += 1
-    min_unused_row = pivot.row
-    while a[pivot.row][pivot.column] == 0 and pivot.row + 1 < len(a):
-        pivot.row += 1
-        if a[pivot.row][pivot.column] == 0 and pivot.column + 1 < len(a[0]):
-            pivot.column += 1
-            pivot.row = min_unused_row
+    potential_pivot_rows = [i for i in range(pivot.row, len(a)) if not used_rows[i]]
+    pivot.row = max(potential_pivot_rows, key=lambda row: abs(a[row][pivot.column]))
+    if a[pivot.row][pivot.column] == 0:
+        used_columns[pivot.column] = True
+        pivot = None
     return pivot
+
+
+def select_pivot_alternative(a, used_rows, used_columns):
+    pivot = Position(0, 0)
+    while pivot.column < len(a[0]) and used_columns[pivot.column]:
+        pivot.column += 1
+    potential_pivot_rows = [i for i in range(pivot.row, len(a)) if not used_rows[i]]
+    while pivot.column < len(a[0]) and pivot.row < len(a):
+        pivot.row = max(potential_pivot_rows, key=lambda x: abs(a[x][pivot.column]))
+        if a[pivot.row][pivot.column] == 0:
+            used_columns[pivot.column] = True
+            pivot.column += 1
+        else:
+            return pivot
+    return
 
 
 def swap_lines(a, b, used_rows, pivot):
@@ -54,13 +66,13 @@ def process_pivot(a, b, pivot):
     if pivot_value == 0:
         return
     if pivot_value != 1:
-        for col in range(len(b)):
+        for col in range(pivot.column, len(b)):
             a[pivot.row][col] /= pivot_value
         b[pivot.row] /= pivot_value
     for row in range(len(a)):
         if row != pivot.row:
             multiplier = a[row][pivot.column]
-            for col in range(len(b)):
+            for col in range(pivot.column, len(b)):
                 a[row][col] -= multiplier * a[pivot.row][col]
             b[row] -= multiplier * b[pivot.row]
 
@@ -78,6 +90,8 @@ def solve_equation(equation):
     used_rows = [False] * size
     for step in range(size):
         pivot = select_pivot(a, used_rows, used_columns)
+        if not pivot:
+            continue
         swap_lines(a, b, used_rows, pivot)
         process_pivot(a, b, pivot)
         mark_pivot_used(pivot, used_rows, used_columns)
