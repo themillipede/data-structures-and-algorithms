@@ -1,16 +1,15 @@
 # python3
 
-from itertools import permutations
-INF = 10 ** 9
-
 from collections import defaultdict
+
+INF = 10 ** 9
 
 
 def read_data():
-    n, m = 4, 6#map(int, input().split())
+    n, m = map(int, input().split())
     graph = [[INF] * n for _ in range(n)]
-    for x in [[1,2,20], [1,3,42], [1,4,35], [2,3,30], [2,4,34], [3,4,12]]:#range(m):
-        u, v, weight = x[0], x[1], x[2]#map(int, input().split())
+    for x in range(m):
+        u, v, weight = map(int, input().split())
         u -= 1
         v -= 1
         graph[u][v] = graph[v][u] = weight
@@ -42,47 +41,35 @@ def optimal_path(graph):
 
             for i in range(1, n):
                 if k & (1 << i) == 0:
-                    continue # skip vertices not in set k
+                    continue  # skip vertices not in set k
 
                 for j in range(n):
                     if j == i or k & (1 << j) == 0:
-                        continue # skip vertices not in set k, also skip i
+                        continue  # skip vertices not in set k, also skip i
 
                     k_without_i = k ^ (1 << i)
                     d_ji = graph[i][j]
                     memo[k][i] = min(memo[k][i], memo[k_without_i][j] + d_ji)
 
-    return min(memo[2 ** n - 1][i] + graph[i][0] for i in range(n))
+    distance = min(memo[2 ** n - 1][i] + graph[i][0] for i in range(n))
+
+    if distance >= INF:
+        return -1, []
+
+    # backtracking to find the shortest path
+    path = []
+    remaining_node_set = 2 ** n - 1  # start with the set of all nodes
+
+    while remaining_node_set > 0:
+        current_node = path[0] if len(path) > 0 else 0
+        remaining_nodes = [i for i in range(n) if (remaining_node_set & (1 << i)) > 0]
+        prev_node = min(remaining_nodes, key=lambda k: memo[remaining_node_set][k] + graph[k][current_node])
+        path = [prev_node] + path
+        # remove the selected previous node from the remaining node set
+        remaining_node_set = remaining_node_set ^ (1 << prev_node)
+
+    return distance, [p + 1 for p in path]
 
 
-
-
-def optimal_path_slow(graph):
-    # This solution tries all the possible sequences of stops.
-    n = len(graph)
-    best_ans = INF
-    best_path = []
-
-    for p in permutations(range(n)):
-        cur_sum = 0
-        for i in range(1, n):
-            if graph[p[i - 1]][p[i]] == INF:
-                break
-            cur_sum += graph[p[i - 1]][p[i]]
-        else:
-            if graph[p[-1]][p[0]] == INF:
-                continue
-            cur_sum += graph[p[-1]][p[0]]
-            if cur_sum < best_ans:
-                best_ans = cur_sum
-                best_path = list(p)
-
-    if best_ans == INF:
-        return (-1, [])
-    return (best_ans, [x + 1 for x in best_path])
-
-
-#if __name__ == '__main__':
-#print_answer(*optimal_path(read_data()))
-
-print(optimal_path(read_data()))
+if __name__ == '__main__':
+    print_answer(*optimal_path(read_data()))
