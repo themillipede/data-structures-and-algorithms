@@ -1,6 +1,10 @@
 # Uses python3
 import sys
 
+# 6. Last digit of the sum of Fibonacci numbers
+# Task: Given an integer n, find the last digit of the sum F_0 + F_1 + ... + F_n
+# Constraints: 0 <= n <= 10^18
+
 
 def fibonacci_sum_naive(n):
     if n <= 1:
@@ -34,6 +38,5 @@ def fibonacci_sum(n):
 
 
 if __name__ == '__main__':
-    input = sys.stdin.read()
-    n = int(input)
+    n = int(sys.stdin.read())
     print(fibonacci_sum(n))

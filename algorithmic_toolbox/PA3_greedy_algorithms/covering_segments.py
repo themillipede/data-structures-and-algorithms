@@ -2,6 +2,12 @@
 import sys
 from collections import namedtuple
 
+# 4. Collecting signatures
+# Task: Given a set of n segments {[a_0, b_0], [a_1, b_1], ..., [a_(n-1), b_(n-1)]}
+# with integer coordinates on a line, find the minimum number m of points such that
+# each segment contains at least one point.
+# Constraints: 1 <= n <= 100; 0 <= a_i <= b_i <= 10^9 for all 0 <= i <= n
+
 Segment = namedtuple('Segment', 'start end')
 
 def optimal_points(segments):

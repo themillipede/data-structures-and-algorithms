@@ -1,6 +1,10 @@
 # Uses python3
 import sys
 
+# 3. Greatest common divisor
+# Task: Given two integers a and b, find their greatest common divisor
+# Constraints: 1 <= a, b <= 2 * 10^9
+
 
 def gcd_naive(a, b):
     current_gcd = 1
@@ -20,4 +24,4 @@ def gcd(a, b):
 if __name__ == "__main__":
     input = sys.stdin.read()
     a, b = map(int, input.split())
-    print(gcd_naive(a, b))
+    print(gcd(a, b))

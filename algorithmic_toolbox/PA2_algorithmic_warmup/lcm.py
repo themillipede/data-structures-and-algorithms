@@ -1,12 +1,16 @@
 # Uses python3
 import sys
 
+# 4. Least common multiple
+# Task: Given two integers a and b, find their lowest common multiple
+# Constraints: 1 <= a, b <= 2 * 10^9
+
 
 def lcm_naive(a, b):
-    for l in range(1, a*b + 1):
+    for l in range(1, a * b + 1):
         if l % a == 0 and l % b == 0:
             return l
-    return a*b
+    return a * b
 
 
 def gcd(a, b):

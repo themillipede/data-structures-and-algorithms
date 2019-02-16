@@ -1,5 +1,10 @@
 # Uses python3
-from sys import stdin
+import sys
+
+# 8. Last digit of the sum of squares of Fibonacci numbers
+# Task: Given an integer n, compute the last digit of the sum F_0^2 + F_1^2 + ... + F_n^2,
+# where F_n is the nth Fibonacci number
+# Constraints: 0 <= n <= 10^18
 
 
 def fibonacci_sum_squares_naive(n):
@@ -24,7 +29,7 @@ def get_fibonacci(n):
     return curr
 
 
-def get_pisano_period_length(m):
+def get_length_of_pisano_period(m):
     pisano_period = []
     n = 2
     prev = 0
@@ -37,7 +42,7 @@ def get_pisano_period_length(m):
 
 
 def get_fibonacci_huge(n, m):
-    len_pisano_period = get_pisano_period_length(m)
+    len_pisano_period = get_length_of_pisano_period(m)
     remainder = n % len_pisano_period
     return get_fibonacci(remainder) % m
 
@@ -47,5 +52,5 @@ def fibonacci_sum_squares(n):
 
 
 if __name__ == '__main__':
-    n = int(stdin.read())
+    n = int(sys.stdin.read())
     print(fibonacci_sum_squares(n))

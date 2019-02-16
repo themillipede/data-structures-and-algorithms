@@ -1,6 +1,11 @@
 # Uses python3
 import sys
 
+# 7. Last digit of the sum of Fibonacci numbers again
+# Task: Given two non-negative integers m and n, where m <= n,
+# compute the last digit of the sum F_m + F_(m+1) + ... + F_n
+# Constraints: 0 <= m <= n <= 10^18
+
 
 def fibonacci_partial_sum_naive(from_, to):
     sum = 0
@@ -37,6 +42,6 @@ def fibonacci_partial_sum(from_, to):
 
 
 if __name__ == '__main__':
-    input = sys.stdin.read();
+    input = sys.stdin.read()
     from_, to = map(int, input.split())
     print(fibonacci_partial_sum(from_, to))

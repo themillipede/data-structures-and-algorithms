@@ -1,6 +1,9 @@
-#Uses python3
-
+# Uses python3
 import sys
+
+# 6. Maximum salary
+# Task: Compose the largest number possible out of a set of integers
+# Constraints: 1 <= n <= 100; 1 <= a_i <= 10^3 for all 1 <= i <= n
 
 
 def is_greater_or_equal_simple(a, b):

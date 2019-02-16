@@ -1,6 +1,10 @@
 # Uses python3
 import sys
 
+# 2. Maximum value of the loot
+# Task: Given n items, each with a specific value and weight, calculate the maximal
+# value of fractions of items that can fit into a knapsack of capacity W, by weight
+
 
 def get_optimal_value(capacity, weights, values):
     value = 0.

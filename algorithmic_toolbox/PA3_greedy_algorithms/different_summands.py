@@ -1,6 +1,11 @@
 # Uses python3
 import sys
 
+# 5. Maximum number of prizes
+# Task: Represent a positive integer n as the sum of as
+# many pairwise distinct positive integers as possible
+# Constraints: 1 <= n <= 10^9
+
 
 def optimal_summands(n):
     summands = []
@@ -15,8 +20,7 @@ def optimal_summands(n):
 
 
 if __name__ == '__main__':
-    input = sys.stdin.read()
-    n = int(input)
+    n = int(sys.stdin.read())
     summands = optimal_summands(n)
     print(len(summands))
     for x in summands:
