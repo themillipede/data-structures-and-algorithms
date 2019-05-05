@@ -1,5 +1,6 @@
 # python3
 
+
 class JobQueue:
     def read_data(self):
         self.num_workers, m = map(int, input().split())
@@ -44,7 +45,7 @@ class JobQueue:
         self.assign_jobs()
         self.write_response()
 
+
 if __name__ == '__main__':
     job_queue = JobQueue()
     job_queue.solve()
-

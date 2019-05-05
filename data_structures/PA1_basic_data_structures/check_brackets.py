@@ -1,3 +1,4 @@
+# python3
 import sys
 
 
@@ -6,7 +7,7 @@ class Bracket:
         self.bracket_type = bracket_type
         self.position = position
 
-    def Match(self, c):
+    def match(self, c):
         if self.bracket_type == '[' and c == ']':
             return True
         if self.bracket_type == '{' and c == '}':
@@ -28,7 +29,7 @@ if __name__ == "__main__":
         if next == ')' or next == ']' or next == '}':
             if opening_brackets_stack:
                 prev = opening_brackets_stack.pop()
-                if not prev.Match(next):
+                if not prev.match(next):
                     result = i + 1
                     break
             else:

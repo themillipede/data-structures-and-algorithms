@@ -38,8 +38,7 @@ def optimal_sequence(n):
     return reversed(sequence)
 
 
-input = sys.stdin.read()
-int(input)
+n = int(sys.stdin.read())
 sequence = list(optimal_sequence(n))
 print(len(sequence) - 1)
 for x in sequence:

@@ -1,5 +1,4 @@
 # python3
-
 import sys
 
 n, m = map(int, sys.stdin.readline().split())
@@ -8,10 +7,12 @@ rank = [1] * n
 parent = list(range(0, n))
 ans = max(lines)
 
+
 def get_parent(table):
     if table != parent[table]:
         parent[table] = get_parent(parent[table])
     return parent[table]
+
 
 def merge(destination, source):
     global ans
@@ -34,6 +35,7 @@ def merge(destination, source):
             rank[real_source] += 1
     
     return True
+
 
 for i in range(m):
     destination, source = map(int, sys.stdin.readline().split())

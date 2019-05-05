@@ -1,6 +1,10 @@
 # python3
-
 import sys
+import threading
+
+# This code is used to avoid stack overflow issues
+sys.setrecursionlimit(10**6) # max depth of recursion
+threading.stack_size(2**28)  # new thread will get stack of such size
 
 
 class Vertex:
@@ -68,7 +72,7 @@ def splay(v):
     return v
 
 
-def find(root, size):
+def find_recursive(root, size):
     s = root.left.size if root.left else 0
     if size == s + 1:
         return root
@@ -78,7 +82,21 @@ def find(root, size):
         return find(root.right, size - s - 1)
 
 
+def find(root, size):
+    while True:
+        s = root.left.size if root.left else 0
+        if size == s + 1:
+            return root
+        elif size < s + 1:
+            root = root.left
+        elif size > s + 1:
+            root = root.right
+            size = size - s - 1
+
+
 def split(root, size):
+    if root is None:
+        return None, None
     if size > root.size:
         return root, None
     result = find(root, size)
@@ -122,9 +140,25 @@ class Rope:
             return []
         return self.in_order(node.left) + [node] + self.in_order(node.right)
 
-    def result(self):
+    def result_recursive(self):
         nodes = self.in_order(self.s)
         return "".join(n.char for n in nodes)
+
+    def result(self):
+        result = ""
+        stack = []
+        node = self.s
+        while True:
+            while node is not None:
+                stack.append(node)
+                node = node.left
+
+            if len(stack) == 0:
+                return result
+
+            node = stack.pop()
+            result += node.char
+            node = node.right
 
     def process(self, i, j, k):
         left, right = split(self.s, j + 2)
@@ -133,12 +167,17 @@ class Rope:
         left, right = split(right, k + 1)
         middle = merge(left, middle)
         self.s = merge(middle, right)
-                
 
-rope = Rope(sys.stdin.readline().strip())
-rope.build_rope()
-q = int(sys.stdin.readline())
-for _ in range(q):
-    i, j, k = map(int, sys.stdin.readline().strip().split())
-    rope.process(i, j, k)
-print(rope.result())
+
+def main():
+    rope = Rope(sys.stdin.readline().strip())
+    rope.build_rope()
+    q = int(sys.stdin.readline())
+    for _ in range(q):
+        i, j, k = map(int, sys.stdin.readline().strip().split())
+        rope.process(i, j, k)
+    print(rope.result())
+
+
+# This is to avoid stack overflow issues
+threading.Thread(target=main).start()

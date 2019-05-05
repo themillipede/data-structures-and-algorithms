@@ -1,5 +1,4 @@
 # python3
-
 from sys import stdin
 
 # Splay tree implementation
@@ -111,9 +110,6 @@ def split(root, key):
     to the root, and the tree rooted at its left child will break off. If the
     key value is higher than the key value of any node in the tree, the whole
     tree rooted at root will be returned, with no second subtree.
-    :param root:
-    :param key:
-    :return:
     """
     result, root = find(root, key)
     if result is None:

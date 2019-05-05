@@ -1,3 +1,4 @@
+# python3
 import sys
 import queue
 
@@ -45,7 +46,7 @@ if __name__ == '__main__':
         cost[a - 1].append(w)
     s = data[0]
     s -= 1
-    distance = [10**19] * n
+    distance = [float('inf')] * n
     reachable = [0] * n
     shortest = [1] * n
     shortest_paths(adj, cost, s, distance, reachable, shortest)

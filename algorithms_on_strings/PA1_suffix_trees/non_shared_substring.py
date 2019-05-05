@@ -1,5 +1,6 @@
 # python3
 import sys
+sys.setrecursionlimit(200000)
 
 
 def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):

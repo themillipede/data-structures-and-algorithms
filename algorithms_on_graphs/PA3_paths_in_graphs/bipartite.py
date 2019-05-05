@@ -1,3 +1,4 @@
+# python3
 import sys
 import queue
 
@@ -12,10 +13,10 @@ def bipartite(adj):
     while not q.empty():
         node = q.get()
         for n in adj[node]:
-            if adj[n] == adj[node]:
+            if label[n] == label[node]:
                 return 0
-            if not adj[n]:
-                adj[n] = 2 if adj[node] == 1 else 1
+            if not label[n]:
+                label[n] = 2 if label[node] == 1 else 1
                 q.put(n)
     return 1
 

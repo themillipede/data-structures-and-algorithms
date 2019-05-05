@@ -1,5 +1,4 @@
 # python3
-
 import sys, threading
 from collections import deque
 sys.setrecursionlimit(10**7) # max depth of recursion
@@ -23,7 +22,7 @@ class TreeHeight:
         return maxHeight;
 
     def compute_height(self):
-        nodes = [[] for _ in range(len(self.n))]
+        nodes = [[] for _ in range(self.n)]
         for i, node in enumerate(self.parent):
             if node == -1:
                 root = i
@@ -44,5 +43,6 @@ def main():
   tree = TreeHeight()
   tree.read()
   print(tree.compute_height())
+
 
 threading.Thread(target=main).start()

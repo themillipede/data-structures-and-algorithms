@@ -1,9 +1,10 @@
+# python3
 import sys
 import queue
 
 
 def distance(adj, cost, s, t):
-    dist = [float('inf') for n in adj]
+    dist = [float('inf') for _ in adj]
     dist[s] = 0
     q = queue.PriorityQueue()
     for n, distance in enumerate(dist):
@@ -11,6 +12,8 @@ def distance(adj, cost, s, t):
     while not q.empty():
         u = q.get()[1]
         if u == t:
+            if dist[u] == float('inf'):
+                return -1
             return dist[u]
         for i, v in enumerate(adj[u]):
             alt = dist[u] + cost[u][i]

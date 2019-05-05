@@ -1,5 +1,4 @@
 # python3
-
 import random
 
 
@@ -30,15 +29,6 @@ def precompute_hashes(text, len_pattern, prime, x):
     return h
 
 
-def are_equal(s1, s2):
-    if len(s1) != len(s2):
-        return False
-    for i, _ in enumerate(s1):
-        if s1[i] != s2[i]:
-            return False
-    return True
-
-
 def get_occurrences(pattern, text):
     prime = 1000000007
     x = random.randint(1, prime - 1)
@@ -48,7 +38,7 @@ def get_occurrences(pattern, text):
     for i in range(len(text) - len(pattern) + 1):
         if p_hash != hashes[i]:
             continue
-        if are_equal(text[i : i + len(pattern)], pattern):
+        if text[i: i + len(pattern)] == pattern:
             result.append(i)
     return result
 

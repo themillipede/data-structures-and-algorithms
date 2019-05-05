@@ -26,12 +26,12 @@ class Position:
 # c = [1, 6, -3]
 
 def read_equation():
-    n, m = 1, 3#map(int, input().split())
-    a = [[0, 0, 1]]#[]
-    #for row in range(n):
-    #    a.append(list(map(float, input().split())))
-    b = [3]#list(map(float, input().split()))
-    c = [1, 1, 1]#list(map(float, input().split()))
+    n, m = map(int, input().split())
+    a = []
+    for row in range(n):
+        a.append(list(map(float, input().split())))
+    b = list(map(float, input().split()))
+    c = list(map(float, input().split()))
     return a, b, c, n, m
 
 

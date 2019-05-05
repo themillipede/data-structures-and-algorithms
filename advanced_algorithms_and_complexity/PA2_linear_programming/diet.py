@@ -74,7 +74,7 @@ def solve_equation(equation):
   
 
 def satisfies_inequalities(solution, A, b):
-    if not np.all(np.dot(A, solution) <= b):
+    if not np.all(np.dot(A, solution) <= b + 10e-3):
         return False
     return True
 
@@ -100,7 +100,7 @@ def solve_diet_problem(n, m, A, b, c):
         if pleasure > max_pleasure:
             max_pleasure = pleasure
             max_idx = i
-    if np.sum(candidate_solutions[max_idx]) > 10 ** 9:
+    if np.sum(candidate_solutions[max_idx]) >= 10 ** 9:
         return 1, None
     return 0, candidate_solutions[max_idx]
 
@@ -118,6 +118,6 @@ if anst == -1:
     print("No solution")
 if anst == 0:  
     print("Bounded solution")
-    print(' '.join(list(map(lambda x : '%.18f' % x, ansx))))
+    print(' '.join(list(map(lambda x: '%.18f' % x, ansx))))
 if anst == 1:
     print("Infinity")

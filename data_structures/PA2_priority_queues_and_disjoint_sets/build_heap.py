@@ -1,16 +1,17 @@
 # python3
 
+
 class HeapBuilder:
     def __init__(self):
         self._swaps = []
         self._data = []
 
-    def ReadData(self):
-        n = 5#int(input())
-        self._data = [1, 2, 3, 4, 5]#[int(s) for s in input().split()]
+    def read_data(self):
+        n = int(input())
+        self._data = [int(s) for s in input().split()]
         assert n == len(self._data)
 
-    def WriteResponse(self):
+    def write_response(self):
         print(len(self._swaps))
         for swap in self._swaps:
             print(swap[0], swap[1])
@@ -28,16 +29,17 @@ class HeapBuilder:
             self._swaps.append((i, minindex))
             self.sift_down(minindex)
 
-    def GenerateSwaps(self):
+    def generate_swaps(self):
         n = len(self._data)
         for i in range(n // 2 - 1, -1, -1):
             self.sift_down(i)
 
-    def Solve(self):
-        self.ReadData()
-        self.GenerateSwaps()
-        self.WriteResponse()
+    def solve(self):
+        self.read_data()
+        self.generate_swaps()
+        self.write_response()
+
 
 if __name__ == '__main__':
     heap_builder = HeapBuilder()
-    heap_builder.Solve()
+    heap_builder.solve()

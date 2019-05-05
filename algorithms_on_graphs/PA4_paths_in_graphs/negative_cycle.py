@@ -1,9 +1,14 @@
+# python3
 import sys
 
 
 def negative_cycle(adj, cost):
-    dist = [float('inf') for n in adj]
-    dist[0] = 0
+    # add virtual source node
+    cost.append([0] * len(adj))
+    adj.append(range(len(adj)))
+
+    dist = [float('inf') for _ in adj]
+    dist[-1] = 0
     for _ in range(len(adj) - 1):
         for u, vertices in enumerate(adj):
             for i, v in enumerate(vertices):

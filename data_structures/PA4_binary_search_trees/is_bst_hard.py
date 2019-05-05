@@ -1,12 +1,12 @@
 #!/usr/bin/python3
+import sys
+import threading
 
-import sys, threading
-
-sys.setrecursionlimit(10**7) # max depth of recursion
-threading.stack_size(2**25)  # new thread will get stack of such size
+sys.setrecursionlimit(10**7)  # max depth of recursion
+threading.stack_size(2**27)  # new thread will get stack of such size
 
 
-def IsBinarySearchTree(tree):
+def is_binary_search_tree(tree):
 
     max_lower = float('-inf')
     min_higher = float('inf')
@@ -30,9 +30,10 @@ def main():
     tree = []
     for i in range(nodes):
         tree.append(list(map(int, sys.stdin.readline().strip().split())))
-    if IsBinarySearchTree(tree):
+    if is_binary_search_tree(tree):
         print("CORRECT")
     else:
         print("INCORRECT")
+
 
 threading.Thread(target=main).start()

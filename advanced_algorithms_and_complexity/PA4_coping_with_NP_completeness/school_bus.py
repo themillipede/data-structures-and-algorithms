@@ -1,5 +1,4 @@
 # python3
-
 from collections import defaultdict
 
 INF = 10 ** 9

@@ -2,7 +2,7 @@
 import sys
 
 
-def fast_count_segments_alt(starts, ends, points):
+def fast_count_segments(starts, ends, points):
     cnt = [0] * len(points)
 
     labelled_positions = (

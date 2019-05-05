@@ -2,19 +2,20 @@
 
 
 def tarjan(graph):
+    index = [0]
 
-    def strongly_connect(v, index):
-        indices[v] = index
-        lowlink[v] = index
-        index += 1
+    def strongly_connect(v):
+        indices[v] = index[0]
+        lowlink[v] = index[0]
+        index[0] += 1
         stack.append(v)
         onstack[v] = True
         for w in graph[v]:
             if indices[w] is None:
-                strongly_connect(w, index)
+                strongly_connect(w)
                 lowlink[v] = min(lowlink[v], lowlink[w])
             elif onstack[w]:
-                lowlink[v] = min(lowlink[v], lowlink[w])
+                lowlink[v] = min(lowlink[v], indices[w])
         if lowlink[v] == indices[v]:
             new_scc = []
             w = stack.pop()
@@ -26,7 +27,6 @@ def tarjan(graph):
                 new_scc.append(w)
             scc_list.append(new_scc)
 
-    index = 0
     stack = []
     scc_list = []
     indices = {n: None for n in graph}
@@ -34,7 +34,7 @@ def tarjan(graph):
     onstack = {n: False for n in graph}
     for v in graph:
         if indices[v] is None:
-            strongly_connect(v, index)
+            strongly_connect(v)
     return scc_list
 
 
@@ -43,8 +43,11 @@ def assign_new_colors(n, edges, colours):
     def is_satisfiable():
         graph = {i: [] for i in list(range(-3 * n, 0)) + list(range(1, 3 * n + 1))}
         for i in clauses:
-            graph[(-1) * i[0]].append(i[1])
-            graph[(-1) * i[1]].append(i[0])
+            if len(i) == 1:
+                graph[(-1) * i[0]].append(i[0])
+            else:
+                graph[(-1) * i[0]].append(i[1])
+                graph[(-1) * i[1]].append(i[0])
         scc_list = tarjan(graph)
         scc_dict = {v: i for i, sublist in enumerate(scc_list) for v in sublist}
         for x in range(1, 3 * n + 1):
@@ -59,10 +62,12 @@ def assign_new_colors(n, edges, colours):
         return assignments
 
     clauses = []
-    colour_to_num = {'R': [1, 2], 'G': [0, 2], 'B': [0, 1]}
+    colour_to_other_num = {'R': [1, 2], 'G': [0, 2], 'B': [0, 1]}
+    colour_to_num = {'R': 0, 'G': 1, 'B': 2}
     for vertex in range(1, n * 3 + 1, 3):
-        cur_colour = colours[int((vertex - 1) / 3)]
-        colour_num = colour_to_num[cur_colour]
+        cur_colour = colours[(vertex - 1) // 3]
+        clauses.append([-(vertex + colour_to_num[cur_colour])])
+        colour_num = colour_to_other_num[cur_colour]
         clauses.append([vertex + colour_num[0], vertex + colour_num[1]])
         clauses.append([-(vertex + colour_num[0]), -(vertex + colour_num[1])])
     for edge in edges:
@@ -79,15 +84,14 @@ def assign_new_colors(n, edges, colours):
     return result
 
 
-def main():
-    n, m = map(int, input().split())
-    colors = input().split()
-    edges = []
-    for i in range(m):
-        u, v = map(int, input().split())
-        edges.append((u, v))
-    new_colors = assign_new_colors(n, edges, colors)
-    if new_colors is None:
-        print("Impossible")
-    else:
-        print(''.join(new_colors))
+n, m = map(int, input().split())
+colors = input()
+edges = []
+for i in range(m):
+    u, v = map(int, input().split())
+    edges.append((u, v))
+new_colors = assign_new_colors(n, edges, colors)
+if new_colors is None:
+    print("Impossible")
+else:
+    print(''.join(new_colors))

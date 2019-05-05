@@ -10,7 +10,7 @@ class Node:
         self.patternEnd = False
 
 
-def build_trie(patterns):
+def build_trie0(patterns):
     tree = dict()
     node_num = 0
     for string in patterns:
@@ -32,7 +32,7 @@ def build_trie(patterns):
     return tree
 
 
-def solve(text, n, patterns):
+def solve0(text, n, patterns):
     result = []
     trie = build_trie(patterns)
     for i, _ in enumerate(text):
@@ -44,6 +44,43 @@ def solve(text, n, patterns):
             curr_node = trie[curr_node][text[char_index]][0]
             char_index += 1
         if curr_node not in trie or is_end == 1:
+            result.append(i)
+    return result
+
+
+def build_trie(patterns):
+    patterns.sort()
+    tree = dict()
+    leaves = set()
+    node_num = 0
+    for string in patterns:
+        curr_node = 0
+        for idx, i in enumerate(string):
+            if curr_node not in tree:
+                tree[curr_node] = {}
+            if i in tree[curr_node]:
+                curr_node = tree[curr_node][i]
+            else:
+                node_num += 1
+                tree[curr_node][i] = node_num
+                curr_node = node_num
+            if curr_node in leaves:
+                break
+            if idx == len(string) - 1:
+                leaves.add(curr_node)
+    return tree
+
+
+def solve(text, n, patterns):
+    result = []
+    trie = build_trie(patterns)
+    for i, _ in enumerate(text):
+        curr_node = 0
+        char_index = i
+        while curr_node in trie and char_index < len(text) and text[char_index] in trie[curr_node]:
+            curr_node = trie[curr_node][text[char_index]]
+            char_index += 1
+        if curr_node not in trie:
             result.append(i)
     return result
 

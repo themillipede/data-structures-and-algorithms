@@ -1,5 +1,6 @@
 # python3
 
+
 class Query:
     def __init__(self, query):
         self.type = query[0]
@@ -18,55 +19,16 @@ def write_responses(result):
 
 
 def process_queries(queries):
-    name_to_number = {}
-    number_to_name = {}
+    contacts = [None for _ in range(10**7)]
     result = []
-    for cur_query in queries:
-        if cur_query.type == 'add':
-            if cur_query.number in number_to_name:
-                prev_name = number_to_name[cur_query.number]
-                del name_to_number[prev_name]
-            name_to_number[cur_query.name] = cur_query.number
-            number_to_name[cur_query.number] = cur_query.name
-        elif cur_query.type == 'del':
-            if cur_query.number in number_to_name:
-                name = number_to_name[cur_query.number]
-                del name_to_number[name]
-                del number_to_name[cur_query.number]
-        else:
-            if cur_query.number in number_to_name:
-                result.append(number_to_name[cur_query.number])
-            else:
-                result.append('not found')
-    return result
-
-
-def process_queries_naive(queries):
-    result = []
-    # Keep list of all existing (i.e. not deleted yet) contacts.
-    contacts = []
-    for cur_query in queries:
-        if cur_query.type == 'add':
-            # if we already have contact with such number,
-            # we should rewrite contact's name
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    contact.name = cur_query.name
-                    break
-            else: # otherwise, just add it
-                contacts.append(cur_query)
-        elif cur_query.type == 'del':
-            for j in range(len(contacts)):
-                if contacts[j].number == cur_query.number:
-                    contacts.pop(j)
-                    break
-        else:
-            response = 'not found'
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    response = contact.name
-                    break
-            result.append(response)
+    for q in queries:
+        if q.type == 'add':
+            contacts[q.number] = q.name
+        elif q.type == 'del':
+            contacts[q.number] = None
+        elif q.type == 'find':
+            name = contacts[q.number]
+            result.append(name if name else 'not found')
     return result
 
 

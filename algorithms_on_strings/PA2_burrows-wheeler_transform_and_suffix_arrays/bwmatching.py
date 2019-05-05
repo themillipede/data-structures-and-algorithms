@@ -43,7 +43,8 @@ def count_occurrences(pattern, bwt, starts, occ_counts_before):
         if i > -1:
             symbol = pattern[i]
             i -= 1
-            if occ_counts_before[symbol][bottom + 1] - occ_counts_before[symbol][top] > 0:
+            if (symbol in occ_counts_before and
+                    occ_counts_before[symbol][bottom + 1] - occ_counts_before[symbol][top] > 0):
                 top = starts[symbol] + occ_counts_before[symbol][top]
                 bottom = starts[symbol] + occ_counts_before[symbol][bottom + 1] - 1
             else:

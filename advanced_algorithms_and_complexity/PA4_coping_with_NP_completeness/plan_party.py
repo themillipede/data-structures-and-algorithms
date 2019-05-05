@@ -1,7 +1,8 @@
-#uses python3
-
+# python3
 import sys
 import threading
+
+from collections import deque
 
 # This code is used to avoid stack overflow issues
 sys.setrecursionlimit(10**6) # max depth of recursion
@@ -12,6 +13,7 @@ class Vertex:
     def __init__(self, weight):
         self.weight = weight
         self.children = []
+        self.parent = None
 
 
 def ReadTree():
@@ -22,6 +24,20 @@ def ReadTree():
         tree[a - 1].children.append(b - 1)
         tree[b - 1].children.append(a - 1)
     return tree
+
+
+def bfs(tree, vertex):
+    new_tree = [Vertex(v.weight) for v in tree]
+    q = deque()
+    q.append(vertex)
+    while q:
+        v = q.popleft()
+        for child in tree[v].children:
+            tree[child].parent = v
+            if child != tree[v].parent:
+                new_tree[v].children.append(child)
+                q.append(child)
+    return new_tree
 
 
 def fun_party(tree, vertex, memo=None):
@@ -46,9 +62,7 @@ def MaxWeightIndependentTreeSubset(tree):
     size = len(tree)
     if size == 0:
         return 0
-    for n, node in enumerate(tree):
-        for child in node.children:
-            tree[child].children.remove(n)
+    tree = bfs(tree, 0)
     return fun_party(tree, 0, memo=None)
 
 

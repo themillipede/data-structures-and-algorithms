@@ -1,4 +1,4 @@
-#Uses python3
+#Uses python2
 import sys
 import math
 
@@ -21,7 +21,7 @@ def min_dist(coords):
     mid_xcoord = (left[-1][0] + right[0][0]) / 2
     left_xlimit = mid_xcoord - d
     right_xlimit = mid_xcoord + d
-    left_idx = len(left) -1
+    left_idx = len(left) - 1
     while left_idx > -1 and left[left_idx][0] > left_xlimit:
         left_idx -= 1
     left_col = left[left_idx + 1:]

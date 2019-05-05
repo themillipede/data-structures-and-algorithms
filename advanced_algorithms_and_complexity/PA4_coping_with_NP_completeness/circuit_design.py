@@ -1,4 +1,10 @@
 # python3
+import sys
+import threading
+
+# This code is used to avoid stack overflow issues
+sys.setrecursionlimit(10**6) # max depth of recursion
+threading.stack_size(2**26)  # new thread will get stack of such size
 
 n, m = map(int, input().split())
 clauses = [list(map(int, input().split())) for i in range(m)]
@@ -60,9 +66,14 @@ def is_satisfiable():
     return assignments
 
 
-result = is_satisfiable()
-if result is None:
-    print("UNSATISFIABLE")
-else:
-    print("SATISFIABLE")
-    print(" ".join(str(i if result[i] else -i) for i in range(1, n + 1)))
+def main():
+    result = is_satisfiable()
+    if result is None:
+        print("UNSATISFIABLE")
+    else:
+        print("SATISFIABLE")
+        print(" ".join(str(i if result[i] else -i) for i in range(1, n + 1)))
+
+
+# This is to avoid stack overflow issues
+threading.Thread(target=main).start()

@@ -7,7 +7,7 @@ def partition3(item_weights):
     subset_sum = sum(item_weights) / 3
 
     if subset_sum % 1 != 0 or max(item_weights) > subset_sum:
-        return False
+        return 0
     subset_sum = int(subset_sum)
 
     value = [[[False for _ in range(subset_sum + 1)] for _ in range(subset_sum + 1)] for _ in range(num_items + 1)]
@@ -23,7 +23,7 @@ def partition3(item_weights):
                 value[i][x][y] = ((value[i - 1][x - next_item_weight][y] and next_item_weight <= x) or
                                   (value[i - 1][x][y - next_item_weight] and next_item_weight <= y) or
                                   value[i - 1][x][y])
-    return value[num_items][subset_sum][subset_sum]
+    return int(value[num_items][subset_sum][subset_sum])
 
 
 if __name__ == '__main__':

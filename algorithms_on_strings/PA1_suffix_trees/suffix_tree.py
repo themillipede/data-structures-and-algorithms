@@ -63,7 +63,7 @@ def build_suffix_tree(text):
         for edge in edges:
             start = edge[0]
             length = edge[1]
-            result.append((text[start:start + length], start))
+            result.append(text[start:start + length])
     return result
 
 

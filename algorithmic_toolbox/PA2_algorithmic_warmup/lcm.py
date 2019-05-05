@@ -21,7 +21,7 @@ def gcd(a, b):
 
 def lcm(a, b):
     gcd_ab = gcd(a, b)
-    return a * b / gcd_ab
+    return a * b // gcd_ab
 
 
 if __name__ == '__main__':
