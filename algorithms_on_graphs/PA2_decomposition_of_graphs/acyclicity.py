@@ -1,6 +1,12 @@
 # python3
 import sys
 
+# 1. Checking consistency of CS curriculum
+# Task: Check whether a given directed graph contains a cycle.
+# Input: A directed graph with n vertices and m edges.
+# Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
+# Output: 1 if the graph contains a cycle and 0 otherwise.
+
 
 def contains_cycle(node, visited, stack, adj):
     visited.add(node)

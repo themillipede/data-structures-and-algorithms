@@ -1,21 +1,28 @@
 # python3
 import sys
 
+# 2. Determining an order of courses
+# Task: Compute a topological ordering of a given directed acyclic graph (DAG).
+# Input: A directed graph with n vertices and m edges.
+# Constraints: 1 <= n <= 10^5, 0 <= m <= 10^5. The given graph is guaranteed to be acyclic.
+# Output: Any topological ordering of the vertices.
 
-def dfs(adj, used, order, x):
-    used[x] = 1
-    for n in adj[x]:
+
+def dfs(adj, used, order, node):
+    used[node] = 1
+    for n in adj[node]:
         if not used[n]:
             dfs(adj, used, order, n)
-    order.insert(0, x)
+    order.append(node)
 
 
 def toposort(adj):
     used = [0] * len(adj)
     order = []
-    for x, _ in enumerate(adj):
-        if not used[x]:
-            dfs(adj, used, order, x)
+    for node, _ in enumerate(adj):
+        if not used[node]:
+            dfs(adj, used, order, node)
+    order.reverse()
     return order
 
 

@@ -1,6 +1,12 @@
 # python3
 import sys
 
+# 2. Adding exits to a maze
+# Task: Given an undirected graph, compute the number of connected components.
+# Input: An undirected graph with n vertices and m edges.
+# Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
+# Output: The number of connected components.
+
 
 def explore(node, visited, adj):
     visited.add(node)
