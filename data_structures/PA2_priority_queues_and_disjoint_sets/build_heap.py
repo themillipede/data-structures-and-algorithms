@@ -1,45 +1,40 @@
 # python3
 
+# 1. Convert array into heap
+# Task: Convert a given array of integers into a min-heap using only O(n) swaps.
+# Input: The first line contains a single integer n. The next line contains n space-separated integers a_i.
+# Constraints: 1 <= n <= 100000; 0 <= i, j <= n - 1; 0 <= a_0, a_1, ..., a_n-1 <= 10^9. All a_i are distinct.
+# Output: The first line should contain a single integer m -- the total number of swap operations used to convert
+#     the array into a min-heap, satisfying the condition 0 <= m <= 4n. The next m lines should contain the swap
+#     operations, with each swap described by two integers i, j -- the 0-based indices of the elements swapped.
 
-class HeapBuilder:
-    def __init__(self):
-        self._swaps = []
-        self._data = []
 
-    def read_data(self):
-        n = int(input())
-        self._data = [int(s) for s in input().split()]
-        assert n == len(self._data)
+def sift_down(i, data, swaps):
+    minindex = i
+    leftchild = 2 * i + 1
+    if leftchild < len(data) and data[leftchild] < data[minindex]:
+        minindex = leftchild
+    rightchild = 2 * i + 2
+    if rightchild < len(data) and data[rightchild] < data[minindex]:
+        minindex = rightchild
+    if i != minindex:
+        data[i], data[minindex] = data[minindex], data[i]
+        swaps.append((i, minindex))
+        sift_down(minindex, data, swaps)
 
-    def write_response(self):
-        print(len(self._swaps))
-        for swap in self._swaps:
-            print(swap[0], swap[1])
 
-    def sift_down(self, i):
-        minindex = i
-        leftchild = 2 * i + 1
-        if leftchild < len(self._data) and self._data[leftchild] < self._data[minindex]:
-            minindex = leftchild
-        rightchild = 2 * i + 2
-        if rightchild < len(self._data) and self._data[rightchild] < self._data[minindex]:
-            minindex = rightchild
-        if i != minindex:
-            self._data[i], self._data[minindex] = self._data[minindex], self._data[i]
-            self._swaps.append((i, minindex))
-            self.sift_down(minindex)
-
-    def generate_swaps(self):
-        n = len(self._data)
-        for i in range(n // 2 - 1, -1, -1):
-            self.sift_down(i)
-
-    def solve(self):
-        self.read_data()
-        self.generate_swaps()
-        self.write_response()
+def generate_swaps(data):
+    n = len(data)
+    swaps = []
+    for i in range(n // 2 - 1, -1, -1):
+        sift_down(i, data, swaps)
+    return swaps
 
 
 if __name__ == '__main__':
-    heap_builder = HeapBuilder()
-    heap_builder.solve()
+    n = int(input())
+    data = [int(s) for s in input().split()]
+    swaps = generate_swaps(data)
+    print(len(swaps))
+    for swap in swaps:
+        print(swap[0], swap[1])
