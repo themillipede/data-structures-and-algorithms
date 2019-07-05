@@ -24,7 +24,7 @@ import sys
 
 def get_parent(table):
     if table != parent[table]:
-        parent[table] = get_parent(parent[table])  # path compression" so that every path node points to the root
+        parent[table] = get_parent(parent[table])  # "path compression" so every path node will point to the root
     return parent[table]
 
 
