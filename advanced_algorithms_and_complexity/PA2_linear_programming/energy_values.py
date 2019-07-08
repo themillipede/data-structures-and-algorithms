@@ -16,17 +16,6 @@ class Position:
         self.row = row
 
 
-def read_equation():
-    size = int(input())
-    a = []
-    b = []
-    for row in range(size):
-        line = list(map(float, input().split()))
-        a.append(line[:size])
-        b.append(line[size])
-    return Equation(a, b)
-
-
 def select_pivot(a, used_rows, used_columns):
     pivot = Position(0, 0)
     while used_columns[pivot.column]:
@@ -83,14 +72,16 @@ def solve_equation(equation):
     return b
 
 
-def print_column(column):
-    size = len(column)
-    for row in range(size):
-        print("%.20lf" % column[row])
-
-
 if __name__ == "__main__":
-    equation = read_equation()
+    size = int(input())
+    a = []
+    b = []
+    for row in range(size):
+        line = list(map(float, input().split()))
+        a.append(line[:size])
+        b.append(line[size])
+    equation = Equation(a, b)
     solution = solve_equation(equation)
-    print_column(solution)
-    exit(0)
+    size = len(solution)
+    for row in range(size):
+        print("%.20lf" % solution[row])

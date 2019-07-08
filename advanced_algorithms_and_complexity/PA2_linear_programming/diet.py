@@ -1,6 +1,5 @@
 # python3
-from sys import stdin
-
+import sys
 import itertools
 import numpy as np
 
@@ -73,12 +72,6 @@ def solve_equation(equation):
     return b
   
 
-def satisfies_inequalities(solution, A, b):
-    if not np.all(np.dot(A, solution) <= b + 10e-3):
-        return False
-    return True
-
-
 def solve_diet_problem(n, m, A, b, c):
     A_ext = np.vstack([np.array(A), -np.identity(m), np.ones(m)]).astype(float)
     b_ext = np.array(b + [0] * m + [1e9]).astype(float)
@@ -89,7 +82,7 @@ def solve_diet_problem(n, m, A, b, c):
         b_rows = b_ext[list(index_set)]
         equation = Equation(A_rows, b_rows)
         solution = solve_equation(equation)
-        if satisfies_inequalities(solution, A_ext, b_ext):
+        if np.all(np.dot(A_ext, solution) <= b_ext + 10e-3):  # check if solution satisfies inequality
             candidate_solutions.append(solution)
     if len(candidate_solutions) == 0:
         return -1, None
@@ -100,24 +93,23 @@ def solve_diet_problem(n, m, A, b, c):
         if pleasure > max_pleasure:
             max_pleasure = pleasure
             max_idx = i
-    if np.sum(candidate_solutions[max_idx]) >= 10 ** 9:
+    if np.sum(candidate_solutions[max_idx]) >= 10**9:
         return 1, None
     return 0, candidate_solutions[max_idx]
 
 
-n, m = list(map(int, stdin.readline().split()))
-A = []
-for i in range(n):
-    A += [list(map(int, stdin.readline().split()))]
-b = list(map(int, stdin.readline().split()))
-c = list(map(int, stdin.readline().split()))
-
-anst, ansx = solve_diet_problem(n, m, A, b, c)
-
-if anst == -1:
-    print("No solution")
-if anst == 0:  
-    print("Bounded solution")
-    print(' '.join(list(map(lambda x: '%.18f' % x, ansx))))
-if anst == 1:
-    print("Infinity")
+if __name__ == "__main__":
+    n, m = list(map(int, sys.stdin.readline().split()))
+    A = []
+    for i in range(n):
+        A += [list(map(int, sys.stdin.readline().split()))]
+    b = list(map(int, sys.stdin.readline().split()))
+    c = list(map(int, sys.stdin.readline().split()))
+    anst, ansx = solve_diet_problem(n, m, A, b, c)
+    if anst == -1:
+        print("No solution")
+    if anst == 0:
+        print("Bounded solution")
+        print(' '.join(list(map(lambda x: '%.18f' % x, ansx))))
+    if anst == 1:
+        print("Infinity")

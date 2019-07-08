@@ -3,7 +3,6 @@ import queue
 
 
 class Edge:
-
     def __init__(self, u, v, capacity):
         self.u = u
         self.v = v
@@ -14,7 +13,6 @@ class Edge:
 # This class implements a bit of an unusual scheme for storing edges of the
 # graph, in order to retrieve the backward edge for a given edge quickly.
 class FlowGraph:
-
     def __init__(self, n):
         # List of all - forward and backward - edges
         self.edges = []
@@ -72,7 +70,6 @@ def max_flow(graph, source, sink):
                 if pred[edge.v] is None and edge.v != source and edge.capacity > edge.flow:
                     pred[edge.v] = id
                     q.put(edge.v)
-
         if pred[sink] is not None:
             node = sink
             path = []
@@ -81,21 +78,16 @@ def max_flow(graph, source, sink):
                 path.append(id)
                 node = graph.get_edge(id).u
             path.reverse()
-
             minflow = float('inf')
             for id in path:
                 edge = graph.get_edge(id)
                 if edge.capacity - edge.flow < minflow:
                     minflow = edge.capacity - edge.flow
-
             for edge in path:
                 graph.add_flow(edge, minflow)
-
             flow += minflow
-
         else:
             break
-
     return flow
 
 

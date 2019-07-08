@@ -82,42 +82,29 @@ def max_flow(graph, source, sink):
     return flow
 
 
-class MaxMatching:
-
-    def read_data(self):
-        n, m = map(int, input().split())
-        adj_matrix = [list(map(int, input().split())) for i in range(n)]
-        return adj_matrix
-
-    def write_response(self, matching):
-        line = [str(-1 if x == -1 else x + 1) for x in matching]
-        print(' '.join(line))
-
-    def find_matching(self, adj_matrix):
-        n = len(adj_matrix)
-        m = len(adj_matrix[0])
-        graph = [[] for _ in range(n + m + 2)]
-        graph[0] += range(1, n + 1)
-        for i in range(n):
-            for j in range(m):
-                if adj_matrix[i][j]:
-                    graph[i + 1].append(j + 1 + n)
+def find_matching(adj_matrix):
+    n = len(adj_matrix)
+    m = len(adj_matrix[0])
+    graph = [[] for _ in range(n + m + 2)]
+    graph[0] += range(1, n + 1)
+    for i in range(n):
         for j in range(m):
-            graph[n + 1 + j].append(len(graph) - 1)
-        flowgraph = transform_data(graph)
-        max_flow(flowgraph, 0, n + m + 1)
-        matching = [-1 for _ in range(n)]
-        for i, edge in enumerate(flowgraph.edges):
-            if edge.flow == 1 and edge.u in range(1, 1 + n):
-                matching[edge.u - 1] = edge.v - (1 + n)
-        return matching
-
-    def solve(self):
-        adj_matrix = self.read_data()
-        matching = self.find_matching(adj_matrix)
-        self.write_response(matching)
+            if adj_matrix[i][j]:
+                graph[i + 1].append(j + 1 + n)
+    for j in range(m):
+        graph[n + 1 + j].append(len(graph) - 1)
+    flowgraph = transform_data(graph)
+    max_flow(flowgraph, 0, n + m + 1)
+    matching = [-1 for _ in range(n)]
+    for i, edge in enumerate(flowgraph.edges):
+        if edge.flow == 1 and edge.u in range(1, 1 + n):
+            matching[edge.u - 1] = edge.v - (1 + n)
+    return matching
 
 
 if __name__ == '__main__':
-    max_matching = MaxMatching()
-    max_matching.solve()
+    n, m = map(int, input().split())
+    adj_matrix = [list(map(int, input().split())) for i in range(n)]
+    matching = find_matching(adj_matrix)
+    line = [str(-1 if x == -1 else x + 1) for x in matching]
+    print(' '.join(line))

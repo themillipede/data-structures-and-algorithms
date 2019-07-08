@@ -82,42 +82,29 @@ def max_flow(graph, source, sink):
     return flow
 
 
-class StockCharts:
-
-    def read_data(self):
-        n, k = map(int, input().split())
-        stock_data = [list(map(int, input().split())) for i in range(n)]
-        return stock_data
-
-    def write_response(self, result):
-        print(result)
-
-    def min_charts(self, stock_data):
-        num_stocks = len(stock_data)
-        graph = [[] for _ in range(num_stocks * 2 + 2)]
-        graph[0] += range(1, num_stocks + 1)
-        for i in range(num_stocks - 1):
-            for j in range(i + 1, num_stocks):
-                if all([x > y for x, y in zip(stock_data[i], stock_data[j])]):
-                    graph[j + 1].append(i + 1 + num_stocks)
-                elif all([x < y for x, y in zip(stock_data[i], stock_data[j])]):
-                    graph[i + 1].append(j + 1 + num_stocks)
-        for j in range(num_stocks):
-            graph[j + 1 + num_stocks].append(len(graph) - 1)
-        flowgraph = transform_data(graph)
-        max_flow(flowgraph, 0, num_stocks * 2 + 1)
-        reachable_nodes = set()
-        for i, edge in enumerate(flowgraph.edges):
-            if edge.flow == 1 and edge.u in range(1, 1 + num_stocks):
-                reachable_nodes.add(edge.v)
-        return num_stocks - len(reachable_nodes)
-
-    def solve(self):
-        stock_data = self.read_data()
-        result = self.min_charts(stock_data)
-        self.write_response(result)
+def min_charts(stock_data):
+    num_stocks = len(stock_data)
+    graph = [[] for _ in range(num_stocks * 2 + 2)]
+    graph[0] += range(1, num_stocks + 1)
+    for i in range(num_stocks - 1):
+        for j in range(i + 1, num_stocks):
+            if all([x > y for x, y in zip(stock_data[i], stock_data[j])]):
+                graph[j + 1].append(i + 1 + num_stocks)
+            elif all([x < y for x, y in zip(stock_data[i], stock_data[j])]):
+                graph[i + 1].append(j + 1 + num_stocks)
+    for j in range(num_stocks):
+        graph[j + 1 + num_stocks].append(len(graph) - 1)
+    flowgraph = transform_data(graph)
+    max_flow(flowgraph, 0, num_stocks * 2 + 1)
+    reachable_nodes = set()
+    for i, edge in enumerate(flowgraph.edges):
+        if edge.flow == 1 and edge.u in range(1, 1 + num_stocks):
+            reachable_nodes.add(edge.v)
+    return num_stocks - len(reachable_nodes)
 
 
 if __name__ == '__main__':
-    stock_charts = StockCharts()
-    stock_charts.solve()
+    n, k = map(int, input().split())
+    stock_data = [list(map(int, input().split())) for i in range(n)]
+    result = min_charts(stock_data)
+    print(result)

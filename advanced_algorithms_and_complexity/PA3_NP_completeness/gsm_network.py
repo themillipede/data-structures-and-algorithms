@@ -1,8 +1,5 @@
 # python3
 
-n, m = map(int, input().split())
-edges = [list(map(int, input().split())) for i in range(m)]
-
 
 def print_equisatisfiable_sat_formula():
     print("%s %s" % (m * 3 + n, n * 3))
@@ -19,4 +16,7 @@ def print_equisatisfiable_sat_formula():
         print("-%s -%s 0" % (u_start + 2, v_start + 2))
 
 
-print_equisatisfiable_sat_formula()
+if __name__ == "__main__":
+    n, m = map(int, input().split())
+    edges = [list(map(int, input().split())) for i in range(m)]
+    print_equisatisfiable_sat_formula()

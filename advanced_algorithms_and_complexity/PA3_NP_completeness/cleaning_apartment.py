@@ -1,12 +1,8 @@
 # python3
 from collections import defaultdict
 
-n, m = map(int, input().split())
-edges = [list(map(int, input().split())) for i in range(m)]
-
 
 def print_equisatisfiable_sat_formula():
-
     result = set()
 
     for vertex in range(1, n + 1):
@@ -40,4 +36,7 @@ def print_equisatisfiable_sat_formula():
     print("%s %s\n" % (len(result), n * n) + "\n".join(result))
 
 
-print_equisatisfiable_sat_formula()
+if __name__ == "__main__":
+    n, m = map(int, input().split())
+    edges = [list(map(int, input().split())) for i in range(m)]
+    print_equisatisfiable_sat_formula()
