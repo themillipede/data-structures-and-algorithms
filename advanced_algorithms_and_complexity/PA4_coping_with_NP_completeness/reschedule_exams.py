@@ -1,5 +1,34 @@
 # python3
 
+# 4. Advanced Problem: Reschedule the exams
+# Task: The new secretary at your Computer Science Department has prepared a schedule of exams for CS-101: each
+#     student was assigned to his own exam date. However, it's a disaster: not only some pairs of students known to
+#     be close friends may have been assigned the same date, but also NONE of the students can actually come to the
+#     exam at the day they were assigned (there was a misunderstanding between the secretary who asked to specify
+#     available dates and the students who understood they needed to select unavailable dates). There are three
+#     different dates the professors are available for these exams, and these dates cannot be changed. The only
+#     thing that can be changed is the assignment of students to the dates of exams. You know for sure that each
+#     student can't come at the currently scheduled date, but also each student definitely can come at any of the
+#     two other possible dates. Also, you must make sure that no two known close friends are assigned to the same
+#     exam date. You need to determine whether it is possible or not, and if yes, suggest a specific assignment of
+#     the students to the dates. This problem can be reduced to a graph problem called 3-recolouring. You are given
+#     a graph, and each vertex is coloured in one of the 3 possible colours. You need to assign another colour to
+#     each vertex in such a way that no two vertices connected by and edge are assigned the same colour. Possible
+#     colours correspond to the possible exam dates, vertices correspond to students, colours of the vertices
+#     correspond to the assignment of students to the exam dates, and edges correspond to pairs of close friends.
+# Input: The first line contains two integers n and m -- the number of vertices and the number of edges in the
+#     graph. The vertices are numbered from 1 through n. The next line contains a string of length n consisting
+#     only of letters R, G and B, representing the current colour assignments. For each position i (1-based) in the
+#     string, the letter in that position corresponds to the current colour of vertex i. Each of the current colour
+#     assignments must be changed. Each of the next m lines contains two integers u and v -- vertices u and v are
+#     connected by an edge (it is possible that u = v).
+# Constraints: 1 <= n <= 1000; 0 <= m <= 20000; 1 <= u, v <= n.
+# Output: If it is impossible to reassign the students to the dates of exams in such a way that no two friends are
+#     going to take the exam the same day, and each student's assigned date has changed, output just "Impossible".
+#     Otherwise, output one string consisting of n characters R, G and B representing the new colouring of the
+#     vertices. Note that the colour of each vertex must be different from the initial colour of that vertex. The
+#     vertices connected by an edge must have different colours.
+
 
 def tarjan(graph):
     index = [0]
