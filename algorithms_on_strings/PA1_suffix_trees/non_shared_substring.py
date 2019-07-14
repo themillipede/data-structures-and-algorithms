@@ -2,6 +2,14 @@
 import sys
 sys.setrecursionlimit(200000)
 
+# 5. Advanced Problem: Find the shortest non-shared substring of two strings.
+# Task: Find the shortest substring of one string that does not appear in another string.#
+# Input: Strings Text_1 and Text_2.
+# Constraints: 1 <= |Text_1|, |Text_2| <= 2000; strings have equal length (|Text_1| = |Text_2|), are not equal
+#     (Text_1 != Text_2), and contain symbols A, C, G, T only.
+# Output: The shortest (non-empty) substring of Text_1 that does not appear in Text_2. (Multiple solutions may
+#     exist, in which case you may return any one.)
+
 
 def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):
     last_added_node = newest_node
@@ -44,7 +52,7 @@ def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):
     return last_added_node
 
 
-def build_tree(text):
+def build_suffix_tree(text):
     tree = dict()
     suffix_indices = {}
     newest_node = 0
@@ -55,7 +63,6 @@ def build_tree(text):
 
 
 # Find the shortest substring of one string that does not appear in another string.
-
 # A "candidate" substring is either of the following:
 # - The substring ending at the first character of any leaf edge containing '#' at index 1 or greater.
 # - The substring ending at any node all of whose descendant leaf edges contain the '#' character.
@@ -96,7 +103,7 @@ def search(end_idx, node, tree, suffix_indices, start_indices=None):
 
 def solve(p, q):
     text = p + '#' + q + '$'
-    tree, suffix_indices = build_tree(text)
+    tree, suffix_indices = build_suffix_tree(text)
     hash_idx = len(p)
     candidates, nonleaf_candidates = dfs(tree, 0, suffix_indices, hash_idx)
     for node, status in nonleaf_candidates.items():
@@ -108,9 +115,8 @@ def solve(p, q):
     return result
 
 
-p = sys.stdin.readline().strip()
-q = sys.stdin.readline().strip()
-
-ans = solve(p, q)
-
-sys.stdout.write(ans + '\n')
+if __name__ == '__main__':
+    p = sys.stdin.readline().strip()
+    q = sys.stdin.readline().strip()
+    result = solve(p, q)
+    sys.stdout.write(result + '\n')
