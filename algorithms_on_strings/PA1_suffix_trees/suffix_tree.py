@@ -1,6 +1,12 @@
 # python3
 import sys
 
+# 4. Construct the suffix tree of a string
+# Task: Construct the suffix tree of a string.
+# Input: A string Text ending witha "$" symbol.
+# Constraints: 1 <= |Text| <= 5000; except for the last symbol, Text contains symbols A, C, G, T only.
+# Output: The strings labelling the edges of the suffix tree in any order.
+
 
 def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):
     last_added_node = newest_node
@@ -43,7 +49,7 @@ def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):
     return last_added_node
 
 
-def build_tree(text):
+def build_suffix_tree(text):
     tree = dict()
     newest_node = 0
     for suffix_start_idx, _ in enumerate(text):
@@ -51,23 +57,13 @@ def build_tree(text):
     return tree
 
 
-def build_suffix_tree(text):
-    """
-    Build a suffix tree of the string text and return a list
-    with all of the labels of its edges (the corresponding
-    substrings of the text) in any order.
-    """
+if __name__ == '__main__':
+    text = sys.stdin.readline().strip()
+    suffix_tree = build_suffix_tree(text)
     result = []
-    suffix_tree = build_tree(text)
     for node, edges in suffix_tree.items():
         for edge in edges:
             start = edge[0]
             length = edge[1]
             result.append(text[start:start + length])
-    return result
-
-
-if __name__ == '__main__':
-    text = sys.stdin.readline().strip()
-    result = build_suffix_tree(text)
     print("\n".join(result))
