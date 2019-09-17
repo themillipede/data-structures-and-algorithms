@@ -1,10 +1,19 @@
 # Uses python3
-import sys
 
-# 7. Last digit of the sum of Fibonacci numbers again
-# Task: Given two non-negative integers m and n, where m <= n,
-# compute the last digit of the sum F_m + F_(m+1) + ... + F_n
-# Constraints: 0 <= m <= n <= 10^18
+"""
+7. Last digit of the sum of Fibonacci numbers again
+
+Task: Given two non-negative integers m and n, where m <= n, find the last digit of the sum
+    of all Fibonacci numbers between the m-th and n-th Fibonacci numbers, inclusive.
+
+Input: Two non-negative integers m and n on the same line (separated by a space).
+
+Constraints: 0 <= m <= n <= 10^18.
+
+Output: The last digit of F_m + F_(m+1) + ... + F_n, where F_n is the n-th Fibonacci number.
+"""
+
+import sys
 
 
 def fibonacci_partial_sum_naive(from_, to):

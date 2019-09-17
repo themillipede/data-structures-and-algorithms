@@ -1,9 +1,18 @@
 # Uses python3
-import sys
 
-# 5. Fibonacci number again
-# Task: Given two integers n and m, output F_n mod m, where F_n is the nth Fibonacci number
-# Constraints: 1 <= n <= 10^18, 2 <= m <= 10^3
+"""
+5. Fibonacci number again
+
+Task: Given two integers n and m, find F_n mod m, where F_n is the n-th Fibonacci number.
+
+Input: Two integers n and m on the same line (separated by a space).
+
+Constraints: 1 <= n <= 10^18, 2 <= m <= 10^3.
+
+Output: F_n mod m.
+"""
+
+import sys
 
 
 def get_fibonacci_huge_naive(n, m):

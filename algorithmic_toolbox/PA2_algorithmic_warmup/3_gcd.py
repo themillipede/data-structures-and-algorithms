@@ -1,9 +1,18 @@
 # Uses python3
-import sys
 
-# 3. Greatest common divisor
-# Task: Given two integers a and b, find their greatest common divisor
-# Constraints: 1 <= a, b <= 2 * 10^9
+"""
+3. Greatest common divisor
+
+Task: Given two integers a and b, find their greatest common divisor.
+
+Input: Two integers a and b on the same line (separated by a space).
+
+Constraints: 1 <= a, b <= 2*10^9.
+
+Output: The greatest common divisor of a and b.
+"""
+
+import sys
 
 
 def gcd_naive(a, b):

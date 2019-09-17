@@ -1,9 +1,18 @@
 # Uses python3
-import sys
 
-# 4. Least common multiple
-# Task: Given two integers a and b, find their lowest common multiple
-# Constraints: 1 <= a, b <= 2 * 10^9
+"""
+4. Least common multiple
+
+Task: Given two integers a and b, find their lowest common multiple.
+
+Input: Two integers a and b on the same line (separated by a space).
+
+Constraints: 1 <= a, b <= 2*10^9.
+
+Output: The lowest common multiple of a and b.
+"""
+
+import sys
 
 
 def lcm_naive(a, b):
@@ -28,4 +37,3 @@ if __name__ == '__main__':
     input = sys.stdin.read()
     a, b = map(int, input.split())
     print(lcm(a, b))
-

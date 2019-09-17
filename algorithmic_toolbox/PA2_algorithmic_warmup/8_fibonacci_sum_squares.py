@@ -1,10 +1,18 @@
 # Uses python3
-import sys
 
-# 8. Last digit of the sum of squares of Fibonacci numbers
-# Task: Given an integer n, compute the last digit of the sum F_0^2 + F_1^2 + ... + F_n^2,
-# where F_n is the nth Fibonacci number
-# Constraints: 0 <= n <= 10^18
+"""
+8. Last digit of the sum of squares of Fibonacci numbers
+
+Task: Given an integer n, find the last digit of the sum of squares of the first n Fibonacci numbers.
+
+Input: A single integer n.
+
+Constraints: 0 <= n <= 10^18.
+
+Output: The last digit of (F_0)^2 + (F_1)^2 + ... + (F_n)^2, where F_n is the nth Fibonacci number.
+"""
+
+import sys
 
 
 def fibonacci_sum_squares_naive(n):

@@ -1,8 +1,16 @@
 # Uses python3
 
-# 1. Fibonacci number
-# Task: Given an integer n, find the nth Fibonacci number F_n
-# Constraints: 0 <= n <= 45
+"""
+1. Fibonacci number
+
+Task: Given an integer n, find the n-th Fibonacci number F_n.
+
+Input: A single integer n.
+
+Constraints: 0 <= n <= 45.
+
+Output: F_n.
+"""
 
 
 def calc_fib_naive(n):
@@ -21,5 +29,6 @@ def calc_fib(n):
     return curr
 
 
-n = int(input())
-print(calc_fib(n))
+if __name__ == "__main__":
+    n = int(input())
+    print(calc_fib(n))
