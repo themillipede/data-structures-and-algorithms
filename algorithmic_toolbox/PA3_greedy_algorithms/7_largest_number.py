@@ -1,11 +1,25 @@
 # Uses python3
+
+"""
+6. Maximum salary
+
+Introduction: At the end of a successful interview, your boss gives you a few pieces of paper with numbers on it
+    and asks you to compose a larger number from these numbers. The resulting number is going to be your salary,
+    so you are very interested in maximizing this number. How can you do this?
+
+Task: Compose the largest number possible out of a set of integers.
+
+Input: The first line contains an integer n. The second line contains integers a_1, a_2, ..., a_n.
+
+Constraints: 1 <= n <= 100; 1 <= a_i <= 10^3 for all 1 <= i <= n.
+
+Output: The largest number that can be composed out of a_1, a_2, ..., a_n.
+"""
+
 import sys
 
-# 6. Maximum salary
-# Task: Compose the largest number possible out of a set of integers
-# Constraints: 1 <= n <= 100; 1 <= a_i <= 10^3 for all 1 <= i <= n
 
-
+# Simpler alternative to the function directly below.
 def is_greater_or_equal_simple(a, b):
     if b == float('-inf'):
         return True

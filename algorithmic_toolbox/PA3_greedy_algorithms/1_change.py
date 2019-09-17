@@ -1,10 +1,19 @@
 # Uses python3
-import sys
 
-# 1. Money Change
-# Task: Find the minimum number of coins with denominations
-# 1, 5, and 10 needed to change an integer value of money m
-# Constraints: 1 <= m <= 10^3
+"""
+1. Money change
+
+Task: Given an integer m, find the minimum number of coins needed to change money with value m into coins with
+    denominations 1, 5, and 10.
+
+Input: A single integer m.
+
+Constraints: 1 <= m <= 10^3.
+
+Output: The minimum number of coins with denominations 1, 5, and 10 needed to change money with value m.
+"""
+
+import sys
 
 
 def get_change(m):
