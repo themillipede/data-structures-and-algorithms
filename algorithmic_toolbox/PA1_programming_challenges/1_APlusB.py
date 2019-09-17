@@ -5,11 +5,11 @@
 
 Task: Compute the sum of two single digit numbers.
 
-Input: Integers a and b on the same line (separated by a space).
+Input: Two integers a and b on the same line (separated by a space).
 
 Constraints: 0 <= a, b <= 9.
 
-Output: The sum of a and b
+Output: The sum of a and b.
 """
 
 
