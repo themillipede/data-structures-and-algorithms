@@ -1,4 +1,20 @@
-#Uses python2
+# Uses python2
+
+"""
+6. Closest points
+
+Introduction: The goal in this problem is to find the closest pair of points among the given n points.
+
+Task: Given n points on a plane, find the smallest distance between a pair of two (different) points.
+
+Input: The first line contains the number of points n. Each of the following n lines defines a point (x_i, y_i).
+
+Constraints: 2 <= n <= 10^5; -10^9 <= x_i, y_i <= 10^9 are integers.
+
+Output: The minimum distance. The absolute value of the difference between the answer of your program and the
+    optimal value should be at most 10^-3.
+"""
+
 import sys
 import math
 

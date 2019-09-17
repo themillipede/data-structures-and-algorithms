@@ -4,7 +4,7 @@
 2. Maximum pairwise product
 
 Task: Find the maximum product of two distinct numbers in a sequence of non-negative integers. Concretely,
-    given a sequence of non-negative integers a_1, ..., a_n, compute MAX[1 <= i != j <= n] (a_i * a_j).
+    given a sequence of non-negative integers a_1, ..., a_n, compute MAX[1 <= i < j <= n] (a_i * a_j).
 
 Input: The first line contains an integer n. The next line contains n non-negative integers a_1, ..., a_n
     (separated by spaces).

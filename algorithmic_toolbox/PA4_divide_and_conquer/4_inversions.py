@@ -1,4 +1,22 @@
 # Uses python3
+
+"""
+4. Number of inversions
+
+Introduction: An inversion of a sequence a_0, a_1, ..., a_n is a pair of indices 0 <= i < j < n such that a_i > a_j.
+    The number of inversions of a sequence in some sense measures how close the sequence is to being sorted. For
+    example, a sequence sorted in non-descending order contains no inversions at all, while in a sequence sorted in
+    descending order any two elements constitute an inversion (for a total of n(n - 1)/2 inversions).
+
+Task: Count the number of inversions in a given sequence.
+
+Input: The first line contains an integer n. The next line contains a sequence of integers a_0, a_1, ..., a_(n-1).
+
+Constraints: 1 <= n <= 10^5; 1 <= a_i <= 10^9; for all 0 <= i <= n.
+
+Output: The number of inversions in the sequence.
+"""
+
 import sys
 
 

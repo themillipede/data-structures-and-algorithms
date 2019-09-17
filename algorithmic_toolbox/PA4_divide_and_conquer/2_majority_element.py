@@ -1,4 +1,23 @@
 # Uses python3
+
+"""
+2. Majority element
+
+Introduction: Majority rule is a decision rule that selects the alternative which has a majority, that is, more
+    than half of the votes. Given a sequence of elements a_1, a_2, ..., a_n, you would like to check whether it
+    contains an element that appears more than n/2 times. Your goal is to use the divide-and-conquer technique
+    to design an O(nlogn) algorithm.
+
+Task: Check whether an input sequence contains a majority element.
+
+Input: The first line contains an integer n. The next line contains a sequence of non-negative integers
+    a_0, a_1, ..., a_(n-1).
+
+Constraints: 1 <= n <= 10^5; 0 <= a_i <= 10^9 for all 0 <= i < n.
+
+Output: 1 if the sequence contains an element that appears strictly more than n/2 times, and 0 otherwise.
+"""
+
 import sys
 
 

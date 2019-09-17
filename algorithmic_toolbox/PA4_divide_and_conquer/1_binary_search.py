@@ -1,4 +1,19 @@
 # Uses python3
+
+"""
+1. Binary search
+
+Task: Implement the binary search algorithm.
+
+Input: The first line contains an integer n and a sequence of n pairwise distinct positive integers in increasing
+    order, a_0 < a_1 < ... < a_(n-1). The next line contains an integer k and k positive integers
+    b_0, b_1, ..., b_(k-1).
+
+Constraints: 1 <= n, k <= 10^4; 1 <= a_i <= 10^9 for all 0 <= i < n; 1 <= b_j <= 10^9 for all 0 <= j < k.
+
+Output: For all i from 0 to k-1, output an index 0 <= j <= n-1 such that a_j = b_j or -1 if there is no such index.
+"""
+
 import sys
 
 
@@ -15,13 +30,6 @@ def binary_search(a, x):
     return -1
 
 
-def linear_search(a, x):
-    for i in range(len(a)):
-        if a[i] == x:
-            return i
-    return -1
-
-
 if __name__ == '__main__':
     input = sys.stdin.read()
     data = list(map(int, input.split()))
@@ -29,5 +37,4 @@ if __name__ == '__main__':
     m = data[n + 1]
     a = data[1 : n + 1]
     for x in data[n + 2:]:
-        # replace with the call to binary_search when implemented
-        print(binary_search(a, x), end = ' ')
+        print(binary_search(a, x), end=' ')
