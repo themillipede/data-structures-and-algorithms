@@ -1,30 +1,37 @@
 # python3
-import sys
 
-# 3. Merging tables
-# Task: There are n tables, numbered from 1 to n, stored in some database. They all share the same set of columns.
-#     Each table can contain either rows with real data or a symbolic link to another table. Initially, all tables
-#     contain data, and the i-th table has r_i rows. There will be m merge queries to perform, each one defined by
-#     a source table and a destination table. In the first merge operation, all of the data in the source must be
-#     copied to the destination. The data in the source must then be removed and replaced with a symbolic link to
-#     the destination. In all subsequent merges, all symbolic links in either the source or the destination should
-#     be traversed to reach the "true" source and destination, before performing merges in the same way. Each time
-#     a merge operation has concluded, print the maximum size among all n tables (where size is the number of rows
-#     in the table). If the table contains only a symbolic link, its size is considered to be 0.
-# Input: The first line contains two integers n and m -- the number of tables in the database and the number of
-#     merge queries to perform, respectively. The second line contains n integers r_i -- the number of rows in the
-#     i-th table. The following m lines describe merge queries. Each line contains two integers: destination_i and
-#     source_i -- the numbers of the tables to merge.
-# Constraints: 1 <= n, m <= 100000; 0 <= r_i <= 10000; 1 <= destination_i, source_i <= n.
-# Output: For each query print a line containing a single integer -- the maximum of the sizes of all tables after
-#     the corresponding operation.
-# Time limit: 6 seconds
-# Memory limit: 512 Mb
+"""
+3. Merging tables
+
+Introduction: The goal in this problem is to simulate a sequence of merge operations with tables in a database.
+
+Task: There are n tables, numbered from 1 to n, stored in some database. They all share the same set of columns.
+    Each table can contain either rows with real data or a symbolic link to another table. Initially, all tables
+    contain data, and the i-th table has r_i rows. There will be m merge queries to perform, each one defined by
+    a source table and a destination table. In the first merge operation, all of the data in the source must be
+    copied to the destination. The data in the source must then be removed and replaced with a symbolic link to
+    the destination. In all subsequent merges, all symbolic links in either the source or the destination should
+    be traversed to reach the "true" source and destination, before performing merges in the same way. Each time
+    a merge operation has concluded, print the maximum size among all n tables (where size is the number of rows
+    in the table). If the table contains only a symbolic link, its size is considered to be 0.
+
+Input: The first line contains two integers n and m -- the number of tables in the database and the number of
+    merge queries to perform, respectively. The second line contains n integers r_i -- the number of rows in the
+    i-th table. The following m lines describe merge queries. Each line contains two integers: destination_i and
+    source_i -- the numbers of the tables to merge.
+
+Constraints: 1 <= n, m <= 100000; 0 <= r_i <= 10000; 1 <= destination_i, source_i <= n.
+
+Output: For each query print a line containing a single integer -- the maximum of the sizes of all tables after
+    the corresponding operation.
+"""
+
+import sys
 
 
 def get_parent(table):
     if table != parent[table]:
-        parent[table] = get_parent(parent[table])  # "path compression" so every path node will point to the root
+        parent[table] = get_parent(parent[table])  # "Path compression" so every path node will point to the root.
     return parent[table]
 
 
@@ -35,7 +42,7 @@ def merge(destination, source):
     if real_destination == real_source:
         return
 
-    if rank[real_destination] > rank[real_source]:  # "union by rank" to ensure tree depth increases by at most 1
+    if rank[real_destination] > rank[real_source]:  # "Union by rank" to ensure tree depth increases by at most 1.
         parent[real_source] = real_destination
         lines[real_destination] += lines[real_source]
         lines[real_source] = 0
