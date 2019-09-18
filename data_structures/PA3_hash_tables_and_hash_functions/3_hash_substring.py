@@ -1,13 +1,19 @@
 # python3
+
+"""
+3. Find pattern in text
+
+Task: Implement the Rabin-Karp algorithm for searching a given pattern in a given piece of text.
+
+Input: The input contains two stings: the pattern P and the text T.
+
+Constraints: 1 <= |P| <= |T| <= 5*10^5. The total length of all occurrences of P in T doesn't exceed 10^8. The
+    pattern and the text contain only latin letters.
+
+Output: Print all the positions of the occurrences of P in T in ascending order using 0-based indexing.
+"""
+
 import random
-
-
-def read_input():
-    return (input().rstrip(), input().rstrip())
-
-
-def print_occurrences(output):
-    print(' '.join(map(str, output)))
 
 
 def poly_hash(string, prime, x):
@@ -44,4 +50,6 @@ def get_occurrences(pattern, text):
 
 
 if __name__ == '__main__':
-    print_occurrences(get_occurrences(*read_input()))
+    pattern, text = input().rstrip(), input().rstrip()
+    output = get_occurrences(pattern, text)
+    print(' '.join(map(str, output)))

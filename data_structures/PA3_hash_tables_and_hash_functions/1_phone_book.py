@@ -1,21 +1,26 @@
 # python3
 
-# 1. Phone book
-# Task: Implement a simple phone book manager. It should be able to process the following types of user queries:
-#     - add [number] [name]: Add a person with name [name] and phone number [number] to the phone book. If there
-#       exists a user with the number already, then overwrite the corresponding name.
-#     - del [number]: Erase anyone with number [number] from the phone book. If there is no such person, ignore.
-#     - find [number]: Look for a person with phone number [number] and reply with the appropriate name, or with
-#       string "not found" if there is no such person.
-# Input: The first line contains a single integer n -- the number of queries. It is followed by n lines, each of
-#     which contains one query in the format described above.
-# Constraints: 1 <= n <= 10^5. All phone numbers consist of decimal digits. They have no leading zeros, and have
-#     no more than 7 digits. All names are non-empty strings of latin letters, and have length at most 15. It is
-#     guaranteed that there is no person with name "not found".
-# Output: Print the result of each "find" query -- the name corresponding to the phone number, or "not found" if
-#     there is no person with the number, with one result per line in the same order as the find queries appear.
-# Time limit: 6 seconds
-# Memory limit: 512 Mb
+"""
+1. Phone book
+
+Task: Implement a simple phone book manager. It should be able to process the following types of user queries:
+    - add [number] [name]: Add a person with name [name] and phone number [number] to the phone book. If there
+      exists a user with the number already, then overwrite the corresponding name.
+    - del [number]: Erase anyone with number [number] from the phone book. If there is no such person, ignore.
+    - find [number]: Look for a person with phone number [number] and reply with the appropriate name, or with
+      the string "not found" if there is no such person.
+
+Input: The first line contains a single integer n -- the number of queries. It is followed by n lines, each of
+    which contains one query in the format described above.
+
+Constraints: 1 <= n <= 10^5. All phone numbers consist of decimal digits. They have no leading zeros, and have
+    no more than 7 digits. All names are non-empty strings of latin letters, and have at most 15 digits. It is
+    guaranteed that there is no person with name "not found".
+
+Output: Print the result of each "find" query -- the name corresponding to the phone number, or "not found" if
+    there is no person in the phone book with that number. Output one result per line in the same order as the
+    "find" queries appear in the input.
+"""
 
 
 class Query:
@@ -27,7 +32,7 @@ class Query:
 
 
 def process_queries(queries):
-    contacts = [None for _ in range(10**7)]
+    contacts = [None for _ in range(10**7)]  # Will accommodate all numbers containing up to 7 digits.
     result = []
     for q in queries:
         if q.type == 'add':

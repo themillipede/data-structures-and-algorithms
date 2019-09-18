@@ -1,22 +1,29 @@
 # python3
 
-# 2. Hashing with chains
-# Task: Implement a hash table with lists chaining, using the following hash function (m is the bucket count):
-#     h(S) = (SUM( S[i]x^i mod p )) mod m, where S[i] = ASCII code of i-th symbol of S, p = 1000000007, x = 263.
-#     The program should support the following kinds of queries:
-#     - add [string]: insert [string] into the table. If [string] already exists in the table, ignore the query.
-#     - del [string]: remove [string] from the table. if there is no such string in the table, ignore the query.
-#     - find [string]: output "yes" or "no" depending on whether or not the table contains [string].
-#     - check [i]: output the content of the i-th list in the table. Use spaces to separate the elements of the
-#       list. If the i-th list is empty, output a blank line.
-#     When inserting a new string into a hash chain, insert it in the beginning of the chain.
-# Input: The first line contains a single integer m  -- the number of buckets. The next line contains the number
-#     of queries N. It is followed by N lines, each containing one query in the format described above.
-# Constraints: 1 <= N <= 10^5; N/5 <= m <= N. All the strings consist of latin letters, are non-empty, and have
-#      length at most 15.
-# Output: Print the result of each find and check query, one per line, in the same order as given in the input.
-# Time limit: 7 seconds
-# Memory limit: 512 Mb
+"""
+2. Hashing with chains
+
+Introduction: In this problem you will implement a hash table using the chaining scheme.
+
+Task: Implement a hash table with lists chaining, using the following polynomial hash function (you are given
+    the number of buckets m): h(S) = (SUM[i=0->|S|-1] (S[i]x^i mod p)) mod m, where S[i] is the ASCII code of
+    the i-th symbol of S, p = 1000000007, x = 263. Your program should support the following kinds of queries:
+    - add [string]: insert [string] into the table. If [string] already exists in the table, ignore the query.
+    - del [string]: remove [string] from the table. if there is no such string in the table, ignore the query.
+    - find [string]: output "yes" or "no" depending on whether or not the table contains [string].
+    - check [i]: output the content of the i-th list in the table. Use spaces to separate the elements of the
+      list. If the i-th list is empty, output a blank line.
+    When inserting a new string into a hash chain, you must insert it in the beginning of the chain.
+
+Input: The first line contains a single integer m  -- the number of buckets. The next line contains the number
+    of queries N. It is followed by N lines, each containing one query in the format described above.
+
+Constraints: 1 <= N <= 10^5; N/5 <= m <= N. All the strings consist of latin letters, are non-empty, and have
+     length at most 15.
+
+Output: Print the result of each of the "find" and "check" queries, one result per line, in the same order as
+    the queries are given in the input.
+"""
 
 
 MULTIPLIER = 263
