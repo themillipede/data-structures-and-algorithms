@@ -1,12 +1,24 @@
 # python3
-import sys
 
-# 4. Extending stack interface
-# Task: Implement a stack supporting the operations Push(), Pop(), and Max().
-# Input: The first line contains the number q of queries. Each of the following q lines specifies a query of one of
-#     the following formats: push v, pop, or max.
-# Constraints: 1 <= q <= 400000, 0 <= v <= 10000.
-# Output: For each max query, output (on a separate line) the maximum value of the stack.
+"""
+4. Extending stack interface
+
+Introduction: A stack is an abstract data type supporting the operations Push() and Pop(). It is not difficult to
+    to implement it in a way that ensures both these operations work in constant time. In this problem, your goal
+    will be to implement a stack that also supports finding the maximum value, and to ensure that all operations
+    still work in constant time.
+
+Task: Implement a stack supporting the operations Push(), Pop(), and Max().
+
+Input: The first line contains the number q of queries. Each of the following q lines specifies a query of one of
+    the following formats: push v, pop, or max.
+
+Constraints: 1 <= q <= 400000, 0 <= v <= 10000.
+
+Output: For each max query, output (on a separate line) the maximum value of the stack.
+"""
+
+import sys
 
 
 class StackWithMax:
