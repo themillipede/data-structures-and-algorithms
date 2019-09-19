@@ -11,8 +11,7 @@ Introduction: A Computer Science curriculum specifies the prerequisites for each
 
 Task: Check whether a given directed graph with n vertices and m edges contains a cycle.
 
-Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
-    lines contains two of the vertices, u and v, defining a directed edge u -> v. Vertices are numbered 1 to n.
+Input: A directed graph is given in the standard format.
 
 Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
 

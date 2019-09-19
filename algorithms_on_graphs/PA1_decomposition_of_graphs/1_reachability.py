@@ -12,8 +12,7 @@ Introduction: A maze is a rectangular grid of cells with walls between some of a
 
 Task: Given an undirected graph and two distinct vertices u and v, check if there is a path between u and v.
 
-Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
-    lines contains two of the vertices, u and v, defining an edge between u and v. Vertices are numbered 1 to n.
+Input: An undirected graph is given in the standard format. The next line contains the two vertices u and v.
 
 Constraints: 2 <= n <= 10^3; 1 <= m <= 10^3; 1 <= u, v <= n; u != v. It is guaranteed that the given graph is
     simple. That is, it does not contain self-loops or parallel edges.

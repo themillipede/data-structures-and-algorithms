@@ -9,8 +9,7 @@ Introduction: Now you decide to make sure that there are no dead zones in the ma
 
 Task: Given an undirected graph with n vertices and m edges, compute the number of connected components it contains.
 
-Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
-    lines contains two of the vertices, u and v, defining an edge between u and v. Vertices are numbered 1 to n.
+Input: An undirected graph is given in the standard format.
 
 Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
 
