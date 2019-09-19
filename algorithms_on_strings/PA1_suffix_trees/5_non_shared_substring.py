@@ -1,14 +1,21 @@
 # python3
+
+"""
+5. Advanced Problem: Find the shortest non-shared substring of two strings.
+
+Task: Find the shortest substring of one string that does not appear in another string.
+
+Input: Strings Text_1 and Text_2.
+
+Constraints: 1 <= |Text_1|, |Text_2| <= 2000; strings have equal length (|Text_1| = |Text_2|), are not equal
+    (Text_1 != Text_2), and contain symbols A, C, G, T only.
+
+Output: The shortest (non-empty) substring of Text_1 that does not appear in Text_2. (Multiple solutions may
+    exist, in which case you may return any one.)
+"""
+
 import sys
 sys.setrecursionlimit(200000)
-
-# 5. Advanced Problem: Find the shortest non-shared substring of two strings.
-# Task: Find the shortest substring of one string that does not appear in another string.#
-# Input: Strings Text_1 and Text_2.
-# Constraints: 1 <= |Text_1|, |Text_2| <= 2000; strings have equal length (|Text_1| = |Text_2|), are not equal
-#     (Text_1 != Text_2), and contain symbols A, C, G, T only.
-# Output: The shortest (non-empty) substring of Text_1 that does not appear in Text_2. (Multiple solutions may
-#     exist, in which case you may return any one.)
 
 
 def incorporate_latest_substring(text, suffix_start_idx, tree, newest_node):
@@ -67,23 +74,22 @@ def build_suffix_tree(text):
 # - The substring ending at the first character of any leaf edge containing '#' at index 1 or greater.
 # - The substring ending at any node all of whose descendant leaf edges contain the '#' character.
 
-
 def dfs(tree, root, suffix_indices, hash_idx, candidates=None, nonleaf_candidates=None):
     if candidates is None:
         candidates = []
     if nonleaf_candidates is None:
         nonleaf_candidates = {n: True for n in tree}
     for edge, node in tree[root].items():
-        if node not in tree:  # node is a leaf
+        if node not in tree:  # Node is a leaf.
             edge_idx = edge[0]
-            if edge_idx <= hash_idx:  # edge contains the hash character
-                start_idx = suffix_indices[node]  # start index of suffix ending at node
+            if edge_idx <= hash_idx:  # Edge contains the hash character.
+                start_idx = suffix_indices[node]  # Start index of suffix ending at node.
                 if edge_idx == hash_idx:
                     continue
                 candidates.append((start_idx, edge_idx + 1))
             else:
                 nonleaf_candidates[root] = False
-        else:  # node is not a leaf
+        else:  # Node is not a leaf.
             dfs(tree, node, suffix_indices, hash_idx, candidates, nonleaf_candidates)
             if not nonleaf_candidates[node]:
                 nonleaf_candidates[root] = False
@@ -102,7 +108,7 @@ def search(end_idx, node, tree, suffix_indices, start_indices=None):
 
 
 def solve(p, q):
-    text = p + '#' + q + '$'
+    text = p + '#' + q + '$'  # Construct the suffix tree of string Text_1#Text_2$.
     tree, suffix_indices = build_suffix_tree(text)
     hash_idx = len(p)
     candidates, nonleaf_candidates = dfs(tree, 0, suffix_indices, hash_idx)

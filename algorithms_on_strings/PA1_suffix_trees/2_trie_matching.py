@@ -1,13 +1,24 @@
 # python3
-import sys
 
-# 2. Multiple pattern matching
-# Task: Find all occurrences of a collection of patterns in a text.
-# Input: The first line of the input contains a string Text, the second line contains an integer n, and each of the
-#     following n lines contains a pattern from Patterns = {p_1, ..., p_n}.
-# Constraints: 1 <= |Text| <= 10000; 1 <= n <= 5000; 1 <= |p_i| <= 100 for all 1 <= i <= n; all strings contain only
-#     symbols A, C, G, T; no p_i is a prefix of p_j for all 1 <= i != j <= n.
-# Output: All starting positions in Text where a string from Patterns appears as a substring, in increasing order.
+"""
+2. Multiple pattern matching
+
+Introduction: Another problem that can be solved efficiently with tries is the multiple pattern matching problem,
+    the goal of which is to find all occurrences of a collection of patterns in a text. It has many applications,
+    such as highlighting programming language keywords in an IDE and locating reads in a reference genome.
+
+Task: Find all occurrences of a collection of patterns in a text, where no pattern is a prefix of another pattern.
+
+Input: The first line contains a string Text, the second line contains an integer n, and each of the following n
+    lines contains a pattern from Patterns = {p_1, ..., p_n}.
+
+Constraints: 1 <= |Text| <= 10000; 1 <= n <= 5000; 1 <= |p_i| <= 100 for all 1 <= i <= n; all strings contain only
+    symbols A, C, G, T; no p_i is a prefix of p_j for all 1 <= i != j <= n.
+
+Output: All starting positions in Text where a string from Patterns appears as a substring, in increasing order.
+"""
+
+import sys
 
 
 def build_trie(patterns):

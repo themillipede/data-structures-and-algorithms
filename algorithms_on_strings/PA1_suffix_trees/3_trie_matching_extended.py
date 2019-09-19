@@ -1,15 +1,23 @@
 # python3
-import sys
 
-# 3. Generalized multiple pattern matching
-# Task: Extend the solution for the previous problem such that it can handle cases when one of the patterns is a
-#     prefix of another pattern.
-# Input: The first line contains a string Text, the second line contains an integer n, and each of the following
-#     n lines contains a pattern from Patterns = {p_1, ..., p_n}.
-# Constraints: 1 <= |Text| <= 10000; 1 <= n <= 5000; 1 <= |p_i| <= 100 for all 1 <= i <= n; all strings contain
-#     only symbols A, C, G, T; it can be the case that p_i is a prefix of p_j for some i, j.
-# Output: All starting positions in Text where a string from Patterns appears as a substring in increasing order.
-#     If more than one pattern appears starting at position i, output i once.
+"""
+3. Generalized multiple pattern matching
+
+Task: Extend the solution for the previous problem such that it can handle cases when one of the patterns is a
+    prefix of another pattern. In this case, some patterns are spelled in a trie by traversing a path from the
+    root to an internal vertex rather than to a leaf.
+
+Input: The first line contains a string Text, the second line contains an integer n, and each of the following
+    n lines contains a pattern from Patterns = {p_1, ..., p_n}.
+
+Constraints: 1 <= |Text| <= 10000; 1 <= n <= 5000; 1 <= |p_i| <= 100 for all 1 <= i <= n; all strings contain
+    only symbols A, C, G, T; it can be the case that p_i is a prefix of p_j for some i, j.
+
+Output: All starting positions in Text where a string from Patterns appears as a substring in increasing order.
+    If more than one pattern appears starting at position i, output i once.
+"""
+
+import sys
 
 
 def build_trie(patterns):
