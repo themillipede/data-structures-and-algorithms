@@ -1,13 +1,26 @@
 # python3
+
+"""
+3. Advanced Problem: Checking whether any intersection in a city is reachable from any other
+
+Introduction: The police department of a city has made all streets one-way. You would like to check whether it is
+    still possible to drive legally from any intersection to any other intersection. For this, you construct a
+    directed graph: vertices are intersections, and there is an edge (u, v) for each (one-way) street from u to v.
+    Then, it suffices to check whether all the vertices in the graph lie in the same strongly connected component.
+
+Task: Compute the number of strongly connected components in a given directed graph with n vertices and m edges.
+
+Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
+    lines contains two of the vertices, u and v, defining a directed edge u -> v. Vertices are numbered 1 to n.
+
+Constraints: 1 <= n <= 10^4, 0 <= m <= 10^4.
+
+Output: The number of strongly connected components.
+"""
+
 import sys
 
 sys.setrecursionlimit(200000)
-
-# 3. Advanced Problem: Checking whether any intersection in a city is reachable from any other
-# Task: Compute the number of strongly connected components in a given directed graph.
-# Input: A directed graph with n vertices and m edges.
-# Constraints: 1 <= n <= 10^4, 0 <= m <= 10^4.
-# Output: The number of strongly connected components.
 
 
 def dfs_order(node, visited, adj, stack):

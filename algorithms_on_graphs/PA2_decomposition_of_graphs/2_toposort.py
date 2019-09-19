@@ -1,11 +1,23 @@
 # python3
-import sys
 
-# 2. Determining an order of courses
-# Task: Compute a topological ordering of a given directed acyclic graph (DAG).
-# Input: A directed graph with n vertices and m edges.
-# Constraints: 1 <= n <= 10^5, 0 <= m <= 10^5. The given graph is guaranteed to be acyclic.
-# Output: Any topological ordering of the vertices.
+"""
+2. Determining an order of courses
+
+Introduction: Now, when you are sure that there are no cyclic dependencies in the proposed CS curriculum, you would
+    like to find an order of all courses that is consistent with all dependencies. For this, you find a topological
+    ordering of the corresponding directed graph.
+
+Task: Compute a topological ordering of a given directed acyclic graph (DAG) with n vertices and m edges.
+
+Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
+    lines contains two of the vertices, u and v, defining a directed edge u -> v. Vertices are numbered 1 to n.
+
+Constraints: 1 <= n <= 10^5, 0 <= m <= 10^5. The given graph is guaranteed to be acyclic.
+
+Output: Any topological ordering of the vertices.
+"""
+
+import sys
 
 
 def dfs(adj, used, order, node):

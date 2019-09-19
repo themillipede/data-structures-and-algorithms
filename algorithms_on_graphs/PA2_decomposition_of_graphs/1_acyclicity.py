@@ -1,11 +1,25 @@
 # python3
-import sys
 
-# 1. Checking consistency of CS curriculum
-# Task: Check whether a given directed graph contains a cycle.
-# Input: A directed graph with n vertices and m edges.
-# Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
-# Output: 1 if the graph contains a cycle and 0 otherwise.
+"""
+1. Checking consistency of CS curriculum
+
+Introduction: A Computer Science curriculum specifies the prerequisites for each course as a list of other courses
+    that should be taken before taking the course. You would like to perform a consistency check of the curriculum,
+    that is, to check that there are no cyclic dependencies. For this, you construct the following directed graph:
+    vertices correspond to courses; there is a directed edge (u, v) if course u should be taken before course v.
+    Then, it is enough to check whether the resulting graph contains a cycle.
+
+Task: Check whether a given directed graph with n vertices and m edges contains a cycle.
+
+Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
+    lines contains two of the vertices, u and v, defining a directed edge u -> v. Vertices are numbered 1 to n.
+
+Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
+
+Output: 1 if the graph contains a cycle and 0 otherwise.
+"""
+
+import sys
 
 
 def contains_cycle(node, visited, stack, adj):
