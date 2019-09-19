@@ -1,11 +1,23 @@
 # python3
-import sys
 
-# 2. Adding exits to a maze
-# Task: Given an undirected graph, compute the number of connected components.
-# Input: An undirected graph with n vertices and m edges.
-# Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
-# Output: The number of connected components.
+"""
+2. Adding exits to a maze
+
+Introduction: Now you decide to make sure that there are no dead zones in the maze, that is, that at least one exit
+    is reachable from each cell. For this, you find connected components of the corresponding undirected graph, and
+    ensure that each component contains an exit cell.
+
+Task: Given an undirected graph with n vertices and m edges, compute the number of connected components it contains.
+
+Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
+    lines contains two of the vertices, u and v, defining an edge between u and v. Vertices are numbered 1 to n.
+
+Constraints: 1 <= n <= 10^3, 0 <= m <= 10^3.
+
+Output: The number of connected components.
+"""
+
+import sys
 
 
 def explore(node, visited, adj):

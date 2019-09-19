@@ -1,11 +1,27 @@
 # python3
-import sys
 
-# 1. Finding an exit from a maze
-# Task: Given an undirected graph and two distinct vertices u and v, check if there is a path between u and v.
-# Input: An undirected graph with n vertices and m edges. The next line contains two of the vertices, u and v.
-# Constraints: 2 <= n <= 10^3; 1 <= m <= 10^3; 1 <= u, v <= n; u != v.
-# Output: 1 if there is a path between u and v and 0 otherwise.
+"""
+1. Finding an exit from a maze
+
+Introduction: A maze is a rectangular grid of cells with walls between some of adjacent cells. You would like to
+    check whether there is a path from a given cell to a given exit in a maze, where an exit is also a cell that
+    lies on the border of the maze. For this, you can represent the maze as an undirected graph: vertices of the
+    graph are cells of the maze; two vertices are connected by an undirected edge if they are adjacent and there
+    is no wall between them. Then, to check whether there is a path between two given cells in the maze, it
+    suffices to check that there is a path between the corresponding two vertices in the graph.
+
+Task: Given an undirected graph and two distinct vertices u and v, check if there is a path between u and v.
+
+Input: The first line contains the number of vertices and edges, n and m, respectively. Each of the following m
+    lines contains two of the vertices, u and v, defining an edge between u and v. Vertices are numbered 1 to n.
+
+Constraints: 2 <= n <= 10^3; 1 <= m <= 10^3; 1 <= u, v <= n; u != v. It is guaranteed that the given graph is
+    simple. That is, it does not contain self-loops or parallel edges.
+
+Output: 1 if there is a path between u and v and 0 otherwise.
+"""
+
+import sys
 
 
 def explore(x, y, visited, adj):
