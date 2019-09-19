@@ -1,10 +1,34 @@
 # python3
+
+"""
+5. Advanced Problem: Rope
+
+Introduction: In this problem you will implement Rope -- a data structure that can store a string and efficiently
+    cut out part of the string and insert it back in a different position. This data structure can be enhanced to
+    become persistent -- that is, to allow access to previous versions of the string. These properties make it a
+    suitable choice for storing the text in text editors. This is a very advanced problem, harder than all of the
+    previous advanced problems in this course. Don't be upset if it doesn't crack.
+
+Task: You are given a string S and you have to process n queries. Each query is described by three integers i, j,
+    and k, meaning to cut substring S[i...j] (where i and j are 0-based) from the string and then insert it after
+    the k-th symbol of the remaining string (if the symbols are numbered from 1). If k = 0, S[i...j] is inserted
+    at the beginning.
+
+Input: The first line contains the initial string S. The second line contains the number of queries q. The next q
+    lines contain triples of integers i, j, k.
+
+Constraints: S contains only lowercase English letters. 1 <= |S| <= 300000; 1 <= q <= 100000; 0 <= i <= j <= n - 1;
+    0 <= k <= n - (j - i + 1).
+
+Output: The string after all q queries.
+"""
+
 import sys
 import threading
 
-# This code is used to avoid stack overflow issues
-sys.setrecursionlimit(10**6) # max depth of recursion
-threading.stack_size(2**28)  # new thread will get stack of such size
+# This code is used to avoid stack overflow issues.
+sys.setrecursionlimit(10**6)  # Max depth of recursion.
+threading.stack_size(2**28)  # New thread will get stack of this size.
 
 
 class Vertex:
@@ -51,7 +75,7 @@ def small_rotation(v):
 
 def big_rotation(v):
     if ((v.parent.left == v and v.parent.parent.left == v.parent)
-    or (v.parent.right == v and v.parent.parent.right == v.parent)):
+            or (v.parent.right == v and v.parent.parent.right == v.parent)):
         # Zig-zig
         small_rotation(v.parent)
         small_rotation(v)
@@ -72,6 +96,8 @@ def splay(v):
     return v
 
 
+# Replaced with iterative version in final implementation
+# due to memory issues with recursion: see function below.
 def find_recursive(root, size):
     s = root.left.size if root.left else 0
     if size == s + 1:
@@ -140,6 +166,8 @@ class Rope:
             return []
         return self.in_order(node.left) + [node] + self.in_order(node.right)
 
+    # Replaced with iterative version in final implementation
+    # due to memory issues with recursion: see function below.
     def result_recursive(self):
         nodes = self.in_order(self.s)
         return "".join(n.char for n in nodes)

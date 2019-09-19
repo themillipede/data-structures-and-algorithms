@@ -1,8 +1,45 @@
 # python3
+
+"""
+4. Advanced Problem: Set with range sums
+
+Introduction: The goal is to implement a data structure to store a set of integers and quickly compute range sums.
+
+Task: Implement a data structure that stores a set of integers S with the following allowed operations:
+    - add(i): add integer i into the set S (if it was there already, the set doesn't change).
+    - del(i): remove integer i from the set S (if there was no such element, nothing happens).
+    - find(i): check whether or not i is in the set S.
+    - sum(l, r): output the sum of all elements v in S such that l <= v <= r.
+
+Input: Initially the set S is empty. The first line contains the number of operations n. The next n lines contain
+    operations. Each operation is one of the following:
+    - "+ i": add some integer (not i, see below) to S,
+    - "- i": del some integer (not i, see below) from S,
+    - "? i": find some integer (not i, see below) in S,
+    - "s l r": compute the sum of all elements in S within some range of values (not from l to r, see below).
+
+    However, to make sure that your solution can work in an online fashion, each request will actually depend on
+    the result of the last sum request. Denote M = 1000000001. At any moment, let x be the result of the last sum
+    operation, or just 0 if there were no sum operations before. Then:
+    - "+ i" means add((i + x) mod M),
+    - "- i" means del((i + x) mod M),
+    - "? i" means find((i + x) mod M),
+    - "s l r" means sum((l + x) mod M, (r + x) mod M).
+
+Constraints: 1 <= n <= 100000; 0 <= i <= 10^9.
+
+Output: For each find request, just output "Found" or "Not found" depending on whether or not (i + x) mod M is in S.
+    For each sum query, output the sum of all the values v in S such that ((l + x) mod M) <= v <= ((r + x) mod M).
+    It is guaranteed that in all of the tests ((l + x) mod M) <= ((r + x) mod M)), where x is the result of the last
+    sum operation or 0 if there was no previous sum operation.
+"""
+
 from sys import stdin
 
-# Splay tree implementation
 
+###########################
+# Splay tree implementation
+###########################
 
 class Vertex:
     def __init__(self, key, sum, left, right, parent):
@@ -13,13 +50,9 @@ class Vertex:
         self.parent = parent
 
 
+# Updates the "sum" attribute of Vertex v to be equal to the
+# sum of the keys of all vertices in the subtree rooted at v.
 def update(v):
-    """
-    Update sum attribute of vertex v, to be equal to the sum
-    of the keys of all vertices in the subtree rooted at v.
-    :param v: Vertex
-    :return: None
-    """
     if v is None:
         return
     v.sum = v.key + (v.left.sum if v.left is not None else 0) + (v.right.sum if v.right is not None else 0)
@@ -54,7 +87,7 @@ def small_rotation(v):
 
 def big_rotation(v):
     if ((v.parent.left == v and v.parent.parent.left == v.parent)
-    or (v.parent.right == v and v.parent.parent.right == v.parent)):
+            or (v.parent.right == v and v.parent.parent.right == v.parent)):
         # Zig-zig
         small_rotation(v.parent)
         small_rotation(v)
@@ -64,7 +97,7 @@ def big_rotation(v):
         small_rotation(v)
 
 
-# Makes splay of the given vertex and makes it the new root.
+# Splays Vertex v and makes it the new root.
 def splay(v):
     if v is None:
         return None
@@ -76,14 +109,15 @@ def splay(v):
     return v
 
 
-# Searches for the given key in the tree with the given root
-# and calls splay for the deepest visited node after that.
-# Returns pair of the result and the new root.
-# If found, result is a pointer to the node with the given key.
-# Otherwise, result is a pointer to the node with the smallest
-# bigger key (next value in the order).
-# If the key is bigger than all keys in the tree, then result is None.
 def find(root, key):
+    """
+    Search for the given key in the tree with the given root and call splay on
+    the deepest visited node after that. If the key is found, the result is a
+    pointer to the node with the given key. Otherwise, the result is a pointer
+    to the node with the smallest bigger key (the next value in the order). If
+    the key is greater in value than all of the keys in the tree the result is
+    None. Return the result and the new root.
+    """
     v = root
     last = root
     next = None
@@ -136,15 +170,17 @@ def merge(left, right):
     update(right)
     return right
 
-  
-# Code that uses splay tree to solve the problem
+
+###########################
+# Code to solve the problem
+###########################
                                     
 root = None
 
 
 def insert(x):
     global root
-    (left, right) = split(root, x)
+    left, right = split(root, x)
     new_vertex = None
     if right is None or right.key != x:
         new_vertex = Vertex(x, x, None, None, None)
@@ -195,12 +231,8 @@ def erase(x):
         root.parent = None
 
 
+# Checks whether or not integer x is contained within the set.
 def search(x):
-    """
-    Check whether or not integer x is contained within the set.
-    :param x: Integer
-    :return: True or False
-    """
     global root
     result, root = find(root, x)
     if result and result.key == x:
