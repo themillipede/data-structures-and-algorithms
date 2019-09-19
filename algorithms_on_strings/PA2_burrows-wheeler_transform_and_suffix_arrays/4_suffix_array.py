@@ -1,4 +1,23 @@
 # python3
+
+"""
+4.Construct the suffix array of a string
+
+Introduction: We've seen that suffix trees can be too memory intensive to apply in practice. This becomes a serious
+    issue for the case of massive datasets like those arising in bioinformatics. In 1993, Udi Manber and Gene Myers
+    introduced suffix arrays as a memory-efficient alternative to suffix trees. To construct SuffixArray(Text),
+    we first sort all suffixes of Text lexicographically, assuming that "$" comes first in the alphabet. The suffix
+    array is the list of starting positions of these sorted suffixes. For example, SuffixArray("panamabananas$") is
+    (13, 5, 3, 1, 7, 9, 11, 6, 4, 2, 8, 10, 0, 12). To put this into perspective, the suffix tree of a human genome
+    requires about 60 Gb, while the suffix array occupies around 12 Gb.
+
+Task: Construct the suffic array of a string.
+
+Constraints: 1 <= |Text| <= 10^4; except for the last symbol, Text contains symbols A, C, G, T only.
+
+Output: SuffixArray(Text), that is, the list of starting positions (0-based) of sorted suffixes separated by spaces.
+"""
+
 import sys
 
 
