@@ -16,7 +16,7 @@ INF = 10 ** 9
 #     vertices are numbered from 1 to n. Each of the next m lines contains three integers u, v and t, representing
 #     an edge of the graph. This edge connects vertices u and v, and it takes time t to get from u to v. The edges
 #     are bidirectional: you can go both from u to v and from v to u in time t using the edge in question. No edge
-#     connects a vertext to itself. No two vertices are connected by more than one edge.
+#     connects a vertex to itself. No two vertices are connected by more than one edge.
 # Constraints: 2 <= n <= 17; 1 <= m <= n(n - 1)/2; 1 <= u, v <= n; u!= v; 1 <= t <= 1000000.
 # Output: If it is possible to start at some vertex, visit each other vertex exactly once in some order via edges
 #     of the graph, and return to the starting vertex, output two lines. On the first line, output the minimum
