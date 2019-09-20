@@ -57,13 +57,15 @@ from itertools import product
 def print_equisatisfiable_sat_formula(A):
     result = []
     for i, ineq in enumerate(A):
-        non_zeros = [j for j, coef in enumerate(ineq) if coef != 0]
+        non_zeros = [j for j, coef in enumerate(ineq) if coef != 0]  # Contains indices for at most 3 coefficients.
         coefs = [ineq[j] for j in non_zeros]
+        # Check all possible variable assignment combinations for
+        # entries of the binary vector with non-zero coefficients.
         for variable_assignment in product([0, 1], repeat=len(non_zeros)):
             idx_to_var = {idx: var for idx, var in zip(non_zeros, variable_assignment)}
             if not np.dot(np.array(coefs), np.array(variable_assignment)) <= b[i]:
                 # Current assignment does not satisfy this inequality.
-                result.append([-j - 1 if idx_to_var[j] == 1 else j + 1 for j in non_zeros])
+                result.append([-j - 1 if idx_to_var[j] == 1 else j + 1 for j in non_zeros])  # ~x_1 OR ~x_2 OR ~x_3.
 
     # If there are no clauses, add a single satisfiable clause.
     if len(result) == 0:
