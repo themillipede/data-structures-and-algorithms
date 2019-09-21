@@ -127,9 +127,8 @@ def is_satisfiable(clauses, num_vars):
 
 def assign_new_colours(n, edges, colours):
     clauses = []
-    colour_to_num = {'R': 2, 'G': 1, 'B': 0}
     for vertex in range(1, n + 1):
-        colour_num = colour_to_num[colours[vertex - 1]]
+        colour_num = 'BGR'.index(colours[vertex - 1])
         alt_colour1 = vertex * 3 - (colour_num + 1) % 3
         alt_colour2 = vertex * 3 - (colour_num + 2) % 3
         clauses.append([-(vertex * 3 - colour_num)])
