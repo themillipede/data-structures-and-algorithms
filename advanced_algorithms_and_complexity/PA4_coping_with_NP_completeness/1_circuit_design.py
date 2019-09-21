@@ -102,9 +102,9 @@ def is_satisfiable(clauses, num_vars):
     # there is a path from x to y (i.e. x implies y) then it cannot be the case that x = 1 and y = 0.
     # So, if a SCC contains a variable together with its negation, then the formula is unsatisfiable.
     scc_list = tarjan(graph)
-    scc_dict = {v: i for i, sublist in enumerate(scc_list) for v in sublist}  # Note the SCC of each variable.
+    scc_dict = {v: i for i, sublist in enumerate(scc_list) for v in sublist}  # Store the SCC of each variable.
     for x in range(1, num_vars + 1):
-        if scc_dict[x] == scc_dict[-x]:  # The SCC contains both x and ~x ==> unsatisfiable!
+        if scc_dict[x] == scc_dict[-x]:  # A single SCC contains both x and ~x ==> unsatisfiable!
             return None
 
     # If no SCC contains a variable together with its negation, then the formula must be satisfiable.
