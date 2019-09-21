@@ -125,31 +125,9 @@ def is_satisfiable(clauses, num_vars):
 ##################################################
 
 
-def assign_new_colors_original(n, edges, colours):
-    clauses = []
-    colour_to_other_num = {'R': [1, 2], 'G': [0, 2], 'B': [0, 1]}
-    colour_to_num = {'R': 0, 'G': 1, 'B': 2}
-    for vertex in range(1, n * 3 + 1, 3):
-        cur_colour = colours[(vertex - 1) // 3]
-        clauses.append([-(vertex + colour_to_num[cur_colour])])
-        alt1, alt2 = colour_to_other_num[cur_colour]
-        clauses.append([vertex + alt1, vertex + alt2])
-        clauses.append([-(vertex + alt1), -(vertex + alt2)])
-    for edge in edges:
-        u = (edge[0] - 1) * 3 + 1
-        v = (edge[1] - 1) * 3 + 1
-        clauses.append([-(u + 0), -(v + 0)])
-        clauses.append([-(u + 1), -(v + 1)])
-        clauses.append([-(u + 2), -(v + 2)])
-    result = is_satisfiable(clauses, n * 3)
-    if result:
-        result = ['RGB'[i % 3] for i in range(n * 3) if result[i + 1]]
-    return result
-
-
 def assign_new_colours(n, edges, colours):
     clauses = []
-    colour_to_num = {'R': 0, 'G': 1, 'B': 2}
+    colour_to_num = {'R': 2, 'G': 1, 'B': 0}
     for vertex in range(1, n + 1):
         colour_num = colour_to_num[colours[vertex - 1]]
         alt_colour1 = vertex * 3 - (colour_num + 1) % 3
@@ -158,12 +136,13 @@ def assign_new_colours(n, edges, colours):
         clauses.append([alt_colour1, alt_colour2])
         clauses.append([-alt_colour1, -alt_colour2])
     for u, v in edges:
-        clauses.append([-(u * 3 - 0), -(v * 3 - 0)])  # u and v cannot both be 'R'.
+        clauses.append([-(u * 3 - 2), -(v * 3 - 2)])  # u and v cannot both be 'R'.
         clauses.append([-(u * 3 - 1), -(v * 3 - 1)])  # u and v cannot both be 'G'.
-        clauses.append([-(u * 3 - 2), -(v * 3 - 2)])  # u and v cannot both be 'B'.
+        clauses.append([-(u * 3 - 0), -(v * 3 - 0)])  # u and v cannot both be 'B'.
     result = is_satisfiable(clauses, n * 3)
     if result:
-        result = ['BGR'[i % 3] for i in range(n * 3) if result[i + 1]]
+        # 'R' = 1, 4, 7, etc. 'G' = 2, 5, 8, etc. 'B' = 3, 6, 9, etc.
+        result = ['RGB'[i % 3] for i in range(n * 3) if result[i + 1]]
     return result
 
 
