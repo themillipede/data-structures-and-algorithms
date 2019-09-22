@@ -1,4 +1,25 @@
 # python3
+
+"""
+3. Clustering
+
+Introduction: Clustering is a fundamental problem in data mining. The goal is to partition a given set of objects
+    into subsets (or clusters) in such a way that any two objects from the same subset are close (or similar) to
+    each other, while any two objects from different subsets are far apart.
+
+Task: Given n points on a plane and an integer k, compute the largest possible value of d such that the given
+    points can be partitioned into k non-empty subsets in such a way that the distance between any two points
+    from different subsets is at least d.
+
+Input: The first line contains the number of points n. Each of the following n lines defines a point (x_i, y_i).
+    The last line contains the number of clusters k.
+
+Constraints: 2 <= k <= n <= 200; -10^3 <= x_i, y_i <= 10^3 are integers. All points are pairwise different.
+
+Output: The largest value of d. The absolute value of the difference between the answer of your program and the
+    optimal value should be at most 10^-6.
+"""
+
 import sys
 import math
 
@@ -37,11 +58,14 @@ def clustering(x, y, k):
             edges.append([squared_dist, i, j])
     edges.sort()
     idx = 0
+    # While the number of clusters (which starts as the number of points, n) is larger than
+    # the required number of clusters k, assign the two nearest points to the same cluster.
     while n > k:
         if find(edges[idx][1], parent) != find(edges[idx][2], parent):
             union(edges[idx][1], edges[idx][2], parent, rank)
             n -= 1
         idx += 1
+    # Find the pair of points, not in the same cluster, separated by the smallest distance.
     while find(edges[idx][1], parent) == find(edges[idx][2], parent):
         idx += 1
     return math.sqrt(edges[idx][0])
