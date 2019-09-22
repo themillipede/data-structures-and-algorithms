@@ -1,4 +1,30 @@
 # python3
+
+"""
+3. Advanced Problem: Stock charts
+
+Introduction: In this problem you will find the most compact way of visualizing stock price data using charts.
+
+Task: You are in the middle of writing your newspaper's end-of-year economics summary, and you've decided that you
+    want to show a number of charts to demonstrate how different stocks have performed over the course of the last
+    year. You have already decided that you want to show the price of n different stocks, all at the same k points
+    of the year. A simple chart of one stock's price would draw lines between the points (0, p_0), (1, p_1), ...,
+    (k - 1, p_k - 1), where p_i is the price of the stock at the i-th point in time. In order to save space, you
+    have invented the concept of an overlaid chart. An overlaid chart is the combination of one or more simple
+    charts, and shows the prices of multiple stocks (simply drawing a line for each one). In order to avoid
+    confusion between the stocks shown in a chart, the lines in an overlaid chart may not cross or touch. Given a
+    list of the prices of n stocks at each of k time points, you need to determine the minimum number of overlaid
+    charts required to show all of the stocks' prices.
+
+Input: The first line contains two integers n and k -- the number of stocks and the number of points in the year
+    which are common for all of them. Each of the next n lines contains k integers. The i-th of those i lines
+    contains the prices of the i-th stock at the corresponding k points in the year.
+
+Constraints: 1 <= n <= 100; 1 <= k <= 25. All the stock prices are between 0 and 1000000.
+
+Output: A single integer -- the minimum number of overlaid charts to visualize all the stock price data you have.
+"""
+
 import queue
 
 
