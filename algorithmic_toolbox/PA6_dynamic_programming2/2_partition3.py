@@ -1,4 +1,19 @@
 # Uses python3
+
+"""
+2. Partitioning Souvenirs
+
+Task: You and two of your friends have just returned back home after visiting various countries. Now you would like
+    to split evenly all the souvenirs that all three of you bought, so each person receives the same value of items.
+
+Input: The first line contains an integer n -- the number of souvenirs. The second line contains n integers
+    v_1, v_2, ..., v_n separated by spaces, where v_i is the value of the i-th souvenir.
+
+Constraints: 1 <= n <= 20; 1 <= v_i <= 30 for all i.
+
+Output: 1 if it is possible to partition v_1, v_2, ..., v_n into three subsets with equal sums, and 0 otherwise.
+"""
+
 import sys
 
 
@@ -6,6 +21,8 @@ def partition3(item_weights):
     num_items = len(item_weights)
     subset_sum = sum(item_weights) / 3
 
+    # If the total value is not divisible by 3, or any of the items
+    # have more than a third of the total souvenir value, return 0.
     if subset_sum % 1 != 0 or max(item_weights) > subset_sum:
         return 0
     subset_sum = int(subset_sum)

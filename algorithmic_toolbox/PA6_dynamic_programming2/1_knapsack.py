@@ -1,4 +1,19 @@
 # Uses python3
+
+"""
+1. Maximum amount of gold
+
+Introduction: You are given a set of bars of gold and your goal is to put as much gold as possible into your bag.
+    For each bar you can either take it or not (i.e. you cannot take a fraction of a bar).
+
+Input: The first line contains the capacity of a knapsack, W, and the number of bars of gold, n. The next line
+    contains n integers w_0, w_1, ..., w_(n-1) defining the weights of the bars of gold.
+
+Constraints: 1 <= W <= 10^4; 1 <= n <= 300; 0 <= w_0, ..., w_(n-1) <= 10^5.
+
+Output: The maximum weight of gold that fits into a knapsack of capacity W.
+"""
+
 import sys
 
 
