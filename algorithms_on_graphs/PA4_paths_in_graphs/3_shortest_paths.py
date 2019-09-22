@@ -1,4 +1,24 @@
 # python3
+
+"""
+3. Advanced Problem: Exchanging money optimally
+
+Introduction: Now, you would like to compute an optimal way of exchanging the given currency c_i into all other
+    currencies. For this, you find shortest paths from the vertex c_i to all the other vertices.
+
+Task: Given a directed graph with edge weights that may be negative, and n vertices and m edges as well as the
+    vertex s, compute the lengths of the shortest paths from s to all other vertices of the graph.
+
+Input: A directed graph is given in the standard format.
+
+Constraints: 1 <= n <= 10^3; 0 <= m <= 10^4; 1 <= s <= n; edge weights are integers of absolute value at most 10^9.
+
+Output: For all vertices i from 1 to n, output the following on a separate line:
+    - "*" if there is no path from s to u;
+    - "-" if there is a path from s to u, but there is no shortest path from s to u (i.e. distance(s->u) = -inf);
+    - The length of the shortest path otherwise.
+"""
+
 import sys
 import queue
 
