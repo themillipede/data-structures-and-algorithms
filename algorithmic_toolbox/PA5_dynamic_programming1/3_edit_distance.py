@@ -1,5 +1,22 @@
 # Uses python3
 
+"""
+3. Edit distance
+
+Introduction: The edit distance between two strings is the minimum number of operations (insertions, deletions,
+    and substitutions of symbols) to transform one string into another. It is a measure of similarity of two
+    strings. Edit distance has applications, for example, in computational biology, natural language processing,
+    and spell checking. Your goal in this problem is to compute the edit distance between two strings.
+
+Task: Implement an algorithm for computing the edit distance between two strings.
+
+Input: Each of the two lines of the input contains a string consisting of lower case latin letters.
+
+Constraints: The length of both strings is at least 1 and at most 100.
+
+Output: The edit distance between the given two strings.
+"""
+
 
 def edit_distance(s, t):
     n = len(s) + 1
