@@ -1,5 +1,50 @@
 # python3
 
+"""
+Advanced Problem: Construct the suffix tree from the suffix array
+
+Introduction: As we've mentioned earlier, known algorithms for constructing suffix trees in linear time are
+    quite complex. It turns out, however, that one can first construct a suffix array in near-linear time
+    (say, O(nlogn)) and then transform it into a suffix tree in linear time. This gives a near-linear time
+    algorithm for constructing a suffix tree!
+
+    SuffixTree(Text) can be constructed in linear time from SuffixArray(Tree) by using the longest common prefix
+    (LCP) array of Text, LCP(Text), which stores the length of the longest common prefix shared by consecutively
+    lexicographically ordered suffixes of Text.
+    For example, LCP("panamabananas$") = (0, 1, 1, 3, 3, 1, 0, 0, 0, 2, 2, 0, 0).
+
+Task: Construct a suffix tree from the suffix array and LCP array of a string.
+
+Input: The first line contains a string Text ending with a "$" symbol. The second line contains SuffixArray(Text)
+    as a list of |Text| integers separated by spaces. The last line contains LCP(Text) as a list of |Text| - 1
+    integers separated by spaces.
+
+Constraints: 1 <= |Text(Text)| <= 2*10^5; except for the last symbol, Text contains only the symbols A, C, G, T.
+
+Output: The output format in this problem differs from the output format in the problem "Suffix Tree" from PA2 and
+    is somewhat tricky. It is because this problem is harder: the input string can be longer, so it would take too
+    long to output all the edge labels directly and compare them with the correct ones, as their combined length
+    can be Theta(|Text|^2), which is too much when the Text can be as long as 200000 characters.
+
+    Output the Text from the input on the first line. Then output all the edges of the suffix tree in a specific
+    order (see below), each on its own line. Output each edge as a pair of integers (start, end), where start is
+    the position in the Text corresponding to the start of the edge label substring in the Text and end is the
+    position right after the end of the edge label in the Text. Note that start must be a valid position in the
+    Text, that is, 0 <= start <= |Text| - 1, and 1 <= end <= |Text|. Substring Text[start..end - 1] must be equal
+    to the edge label of the corresponding edge. For example, if Text = "ACACAA$" and the edge label is "CA", you
+    can output this edge either as (1, 3) corresponding to Text[1..2] = "CA" or as (3, 5) corresponding to
+    Text[3..4] = "CA" -- both variants will be accepted.
+
+    The order of the edges is important here -- if you output all the correct edges in the wrong order, your
+    solution will not be accepted. Output all the edges in the order of sorted suffixes: first, take the leaf of
+    the suffix tree corresponding to the smallest suffix of Text and output all the edges ont he path from the
+    root to this leaf. Then take the leaf corresponding to the second smallest suffix of Text and output all the
+    edges on the path from the root to this leaf except for those edges which were printed before. Then take the
+    leaf corresponding to the third smallest suffix, fourth smallest suffix and so on. Print each edge only once
+    -- as a part of the path corresponding to the smallest suffic of Text where this edge appears. This way, you
+    will only output O(|Text|) integers.
+"""
+
 import sys
 
 
@@ -43,14 +88,14 @@ def suffix_array_to_suffix_tree(suffix_array, lcp, text):
     order by the first character of the edge label. Root must have node ID = 0, and all
     other node IDs must be different nonnegative integers. Each edge must be represented
     by a tuple (node, start, end), where
-        * node is the node ID of the ending node of the edge
-        * start is the starting position (0-based) of the substring of text corresponding to the edge label
-        * end is the first position (0-based) after the end of the substring corresponding to the edge label
+        - node is the node ID of the ending node of the edge
+        - start is the starting position (0-based) of the substring of text corresponding to the edge label
+        - end is the first position (0-based) after the end of the substring corresponding to the edge label
 
-    For example, if text = "ACACAA$", an edge with label "$" from root to a node with ID 1
-    must be represented by a tuple (1, 6, 7). This edge must be present in the list tree[0]
-    (corresponding to the root node), and it should be the first edge in the list (because
-    it has the smallest first character of all edges outgoing from the root).
+    For example, if text = "ACACAA$", an edge with label "$" from the root to a node with
+    ID 1 must be represented by a tuple (1, 6, 7). This edge must be present in the list
+    tree[0] (corresponding to the root node), and it should be the first edge in the list
+    (because it has the smallest first character of all edges outgoing from the root).
     """
     root = Node(parent=None, string_depth=0, edge_start=-1, edge_end=-1)
     id = 0

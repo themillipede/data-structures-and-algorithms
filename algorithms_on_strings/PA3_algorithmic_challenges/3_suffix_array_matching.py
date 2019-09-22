@@ -1,4 +1,26 @@
 # python3
+
+"""
+3. Pattern matching with the suffix array
+
+Introduction: In this problem, you will use the suffix array to solve the Multiple Pattern Matching Problem.
+    This is what actually happens when one needs to solve the pattern matching problem for a massive string
+    like the human genome: instead of downloading the genome itself, one downloads its suffix array and
+    solves the pattern matching problem using the array.
+
+Task: Find all occurrences of a given collection of patterns in a string.
+
+Input: The first line contains a string Text. The second line specifies an integer n. The last line gives a
+    collection of n strings Patterns = {p_1, ..., p_n} separated by spaces.
+
+Constraints: 1 <= |Text| <= 10^5; 1 <= n <= 10^4; SUM[i=1->n]|p_i| <= 10^5; all strings contain only the
+    symbols A, C, G, T.
+
+Output: All starting positions (in any order) in Text where a pattern appears as a substring (using 0-based
+    indexing as usual). If several patterns occur at the same position in the Text, still output this
+    position only once.
+"""
+
 import sys
 
 
@@ -74,10 +96,9 @@ def update_classes(new_order, char_class, l):
 
 def build_suffix_array(text):
     """
-    Build suffix array of the string text and return a list result of
-    the same length as the text such that the value result[i] is the
-    index (0-based) in text where the i-th lexicographically smallest
-    suffix of text starts.
+    Build the suffix array of the string text and return a list result of the same
+    length as the text such that the value result[i] is the 0-based index in text
+    where the i-th lexicographically smallest suffix of text starts.
     """
     order = sort_characters(text)
     char_class = compute_char_classes(text, order)

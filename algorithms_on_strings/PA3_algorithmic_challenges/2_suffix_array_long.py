@@ -1,4 +1,22 @@
 # python3
+
+"""
+2. Construct the suffix array of a long string
+
+Introduction: The goal in this problem is to construct the suffix array of a given string again, but this time
+    for a longer string. In particular, a quadratic algorithm will not fit into the time limit in this problem.
+    This will require you to implement an almost linear algorithm bringing you close to the state-of-the-art
+    algorithms for constructing suffix arrays.
+
+Task: Construct the suffix array of a string.
+
+Input: a string Text ending with a "$" symbol.
+
+Constraints: 1 <= |Text| <= 2*10^5; except for the last symbol, Text contains only the symbols A, C, G, T.
+
+Output: SuffixArray(Text), that is, the list of starting positions of sorted suffixes separated by spaces.
+"""
+
 import sys
 
 
