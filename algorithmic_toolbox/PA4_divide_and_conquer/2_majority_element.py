@@ -32,11 +32,11 @@ def get_majority_element(int_array, left, right):
     if majority_left == majority_right:
         return majority_left
     if majority_left != -1:  # The left half has a majority element.
-        count = sum(i == majority_left for i in int_array[left:right])  # Check if majority over left + right.
+        count = sum(i == majority_left for i in int_array[left:right])  # Check if majority over both halves.
         if count > (right - left) // 2:
             return majority_left
     if majority_right != -1:  # The right half has a majority element.
-        count = sum(i == majority_right for i in int_array[left:right]) # Check if majority over left + right.
+        count = sum(i == majority_right for i in int_array[left:right]) # Check if majority over both halves.
         if count > (right - left) // 2:
             return majority_right
     return -1
