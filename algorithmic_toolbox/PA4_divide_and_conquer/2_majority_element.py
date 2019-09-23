@@ -42,6 +42,8 @@ def get_majority_element(a, left, right):
     return -1
 
 
+# Algorithm that runs in linear
+# time and uses constant space.
 def boyer_moore_majority(a):
     m = None
     i = 0
