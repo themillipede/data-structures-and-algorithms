@@ -10,7 +10,7 @@ Introduction: Majority rule is a decision rule that selects the alternative whic
 
 Task: Check whether an input sequence contains a majority element.
 
-Input: The first line contains an integer n. The next line contains a sequence of non-negative integers
+Input: The first line contains an integer n. The next line contains a sequence of n non-negative integers
     a_0, a_1, ..., a_(n-1).
 
 Constraints: 1 <= n <= 10^5; 0 <= a_i <= 10^9 for all 0 <= i < n.
@@ -21,24 +21,24 @@ Output: 1 if the sequence contains an element that appears strictly more than n/
 import sys
 
 
-def get_majority_element(a, left, right):
+def get_majority_element(int_array, left, right):
     if left == right:
         return -1
-    if left + 1 == right:
+    if left + 1 == right:  # Only one element, so that element is the majority element.
         return a[left]
     mid = (left + right) // 2
-    ml = get_majority_element(a, left, mid)
-    mr = get_majority_element(a, mid, right)
-    if ml == mr:
-        return ml
-    if ml != -1:
-        ml_count = sum([1 for i in a[left:right] if i == ml])
-        if ml_count > len(a[left:right]) // 2:
-            return ml
-    if mr != -1:
-        mr_count = sum([1 for i in a[left:right] if i == mr])
-        if mr_count > len(a[left:right]) // 2:
-            return mr
+    majority_left = get_majority_element(int_array, left, mid)
+    majority_right = get_majority_element(int_array, mid, right)
+    if majority_left == majority_right:
+        return majority_left
+    if majority_left != -1:  # The left half has a majority element.
+        count = sum(i == majority_left for i in int_array[left:right])  # Check if majority over left + right.
+        if count > (right - left) // 2:
+            return majority_left
+    if majority_right != -1:  # The right half has a majority element.
+        count = sum(i == majority_right for i in int_array[left:right]) # Check if majority over left + right.
+        if count > (right - left) // 2:
+            return majority_right
     return -1
 
 
