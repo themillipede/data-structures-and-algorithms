@@ -68,51 +68,71 @@ class FlowGraph:
     def size(self):
         return len(self.graph)
 
-    def get_ids(self, start):
+    def get_edge_ids(self, start):
         return self.graph[start]
 
-    def get_edge(self, id):
-        return self.edges[id]
+    def get_edge(self, edge_id):
+        return self.edges[edge_id]
 
-    def add_flow(self, id, flow):
-        # To get a backward edge for a true forward edge (i.e. id is even), we should get id + 1 due
-        # to the described above scheme. On the other hand, when we have to get a "backward" edge for
-        # a backward edge (i.e. get a forward edge for backward - id is odd), id - 1 should be taken.
-        # It turns out that id ^ 1 works for both cases.
-        self.edges[id].flow += flow
-        self.edges[id ^ 1].flow -= flow
+    def add_flow(self, edge_id, flow):
+        # To get a backward edge for a true forward edge (i.e. edge_id is even), we use edge_id + 1.
+        # But to get a "backward" edge for a backward edge (i.e. edge_id is odd), we use edge_id - 1.
+        # Conveniently, edge_id ^ 1 gives the correct edge from which to subtract flow in both cases.
+        self.edges[edge_id].flow += flow
+        self.edges[edge_id ^ 1].flow -= flow
 
 
 def max_flow(graph, source, sink):
     flow = 0
     while True:
+
+        # Use BFS to find the shortest augmenting
+        # path (by number of edges) if one exists.
         q = queue.Queue()
         q.put(source)
-        pred = [None for _ in graph.graph]
-        while not q.empty() and not pred[sink]:
+        incoming_edge = [None for _ in graph.graph]  # To store the edge taken to get to each vertex.
+        while not q.empty() and not incoming_edge[sink]:
             nodenum = q.get()
-            edges = graph.get_ids(nodenum)
-            for id in edges:
-                edge = graph.get_edge(id)
-                if pred[edge.v] is None and edge.v != source and edge.capacity > edge.flow:
-                    pred[edge.v] = id
+            edges = graph.get_edge_ids(nodenum)
+            for edge_id in edges:
+                edge = graph.get_edge(edge_id)
+                remaining_capacity = edge.capacity - edge.flow
+                if incoming_edge[edge.v] is None and edge.v != source and remaining_capacity > 0:
+                    incoming_edge[edge.v] = edge_id
                     q.put(edge.v)
-        if pred[sink] is not None:
+
+        if incoming_edge[sink] is not None:  # Check there is actually an augmenting path.
             node = sink
             path = []
+
+            # Backtrack from sink to source to recover
+            # the edge path taken from source to sink.
             while node > 0:
-                id = pred[node]
-                path.append(id)
-                node = graph.get_edge(id).u
+                edge_id = incoming_edge[node]
+                path.append(edge_id)
+                node = graph.get_edge(edge_id).u
             path.reverse()
+
+            # Find the maximum possible flow in the augmenting path (which is equal to the remaining
+            # capacity of the edge with the minimum remaining capacity among the edges in the path).
             minflow = float('inf')
-            for id in path:
-                edge = graph.get_edge(id)
-                if edge.capacity - edge.flow < minflow:
-                    minflow = edge.capacity - edge.flow
-            for edge in path:
-                graph.add_flow(edge, minflow)
+            for edge_id in path:
+                edge = graph.get_edge(edge_id)
+                remaining_capacity = edge.capacity - edge.flow
+                if remaining_capacity < minflow:
+                    minflow = remaining_capacity
+
+            # Add the flow calculated for the augmenting path
+            # to the flow of each edge in the augmenting path.
+            for edge_id in path:
+                graph.add_flow(edge_id, minflow)
+
+            # Increase the maximum flow of the network by the
+            # value of the flow found in the augmenting path.
             flow += minflow
+
+        # The flow through a graph is optimal
+        # iff it contains no augmenting path.
         else:
             break
     return flow
