@@ -15,6 +15,7 @@ Output: The last digit of F_n.
 import sys
 
 
+# Naive solution.
 def get_fibonacci_last_digit_naive(n):
     if n <= 1:
         return n
@@ -25,6 +26,7 @@ def get_fibonacci_last_digit_naive(n):
     return curr % 10
 
 
+# Efficient solution.
 def get_fibonacci_last_digit(n):
     if n <= 1:
         return n
@@ -37,4 +39,4 @@ def get_fibonacci_last_digit(n):
 
 if __name__ == '__main__':
     n = int(sys.stdin.read())
-    print(get_fibonacci_last_digit(n))
+    print(get_fibonacci_last_digit_naive(n))

@@ -15,6 +15,7 @@ Output: The lowest common multiple of a and b.
 import sys
 
 
+# Naive solution.
 def lcm_naive(a, b):
     for l in range(1, a * b + 1):
         if l % a == 0 and l % b == 0:
@@ -22,15 +23,16 @@ def lcm_naive(a, b):
     return a * b
 
 
+# Efficient solution.
+def lcm(a, b):
+    gcd_ab = gcd(a, b)
+    return a * b // gcd_ab
+
+
 def gcd(a, b):
     if b == 0:
         return a
     return gcd(b, a % b)
-
-
-def lcm(a, b):
-    gcd_ab = gcd(a, b)
-    return a * b // gcd_ab
 
 
 if __name__ == '__main__':

@@ -15,6 +15,7 @@ Output: The greatest common divisor of a and b.
 import sys
 
 
+# Naive solution.
 def gcd_naive(a, b):
     current_gcd = 1
     for d in range(2, min(a, b) + 1):
@@ -24,6 +25,7 @@ def gcd_naive(a, b):
     return current_gcd
 
 
+# Efficient solution.
 def gcd(a, b):
     if b == 0:
         return a

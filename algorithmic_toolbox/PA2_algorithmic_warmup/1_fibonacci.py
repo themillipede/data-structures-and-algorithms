@@ -13,12 +13,14 @@ Output: F_n.
 """
 
 
+# Naive recursive solution (too slow to run).
 def calc_fib_naive(n):
     if n <= 1:
         return n
     return calc_fib(n - 1) + calc_fib(n - 2)
 
 
+# Efficient iterative solution.
 def calc_fib(n):
     curr = 0
     next = 1

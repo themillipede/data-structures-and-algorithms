@@ -16,15 +16,28 @@ Output: The last digit of F_m + F_(m+1) + ... + F_n, where F_n is the n-th Fibon
 import sys
 
 
-def fibonacci_partial_sum_naive(from_, to):
+# Naive solution.
+def fibonacci_partial_sum_naive(first, last):
     sum = 0
-    current = 0
+    curr = 0
     next = 1
-    for i in range(to + 1):
-        if i >= from_:
-            sum += current
-        current, next = next, current + next
+    for i in range(last + 1):
+        if i >= first:
+            sum += curr
+        curr, next = next, curr + next
     return sum % 10
+
+
+# Efficient solution.
+def fibonacci_partial_sum(first, last):
+    return (fibonacci_sum(last) - fibonacci_sum(first - 1)) % 10
+
+
+def fibonacci_sum(n):
+    pisano_period = get_pisano_period(10)
+    num_periods = (n + 1) // len(pisano_period)
+    remainder = (n + 1) % len(pisano_period)
+    return (num_periods * sum(pisano_period) + sum(pisano_period[:remainder])) % 10
 
 
 def get_pisano_period(m):
@@ -39,18 +52,7 @@ def get_pisano_period(m):
     return pisano_period[-2:] + pisano_period[:-2]
 
 
-def fibonacci_sum(n):
-    pisano_period = get_pisano_period(10)
-    num_periods = (n + 1) // len(pisano_period)
-    remainder = (n + 1) % len(pisano_period)
-    return (num_periods * sum(pisano_period) + sum(pisano_period[:remainder])) % 10
-
-
-def fibonacci_partial_sum(from_, to):
-    return (fibonacci_sum(to) - fibonacci_sum(from_ - 1)) % 10
-
-
 if __name__ == '__main__':
     input = sys.stdin.read()
-    from_, to = map(int, input.split())
-    print(fibonacci_partial_sum(from_, to))
+    first, last = map(int, input.split())
+    print(fibonacci_partial_sum(first, last))

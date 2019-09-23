@@ -15,26 +15,28 @@ Output: The last digit of (F_0)^2 + (F_1)^2 + ... + (F_n)^2, where F_n is the nt
 import sys
 
 
+# Naive solution.
 def fibonacci_sum_squares_naive(n):
-    if n <= 1:
-        return n
-    previous = 0
-    current = 1
-    sum = 1
-    for _ in range(n - 1):
-        previous, current = current, previous + current
-        sum += current * current
-    return sum % 10
-
-
-def get_fibonacci(n):
     if n <= 1:
         return n
     prev = 0
     curr = 1
+    sum = 1
     for _ in range(n - 1):
         prev, curr = curr, prev + curr
-    return curr
+        sum += curr * curr
+    return sum % 10
+
+
+# Efficient solution.
+def fibonacci_sum_squares(n):
+    return (get_fibonacci_huge(n, 10) * get_fibonacci_huge(n + 1, 10)) % 10
+
+
+def get_fibonacci_huge(n, m):
+    len_pisano_period = get_length_of_pisano_period(m)
+    remainder = n % len_pisano_period
+    return get_fibonacci(remainder) % m
 
 
 def get_length_of_pisano_period(m):
@@ -49,14 +51,14 @@ def get_length_of_pisano_period(m):
     return len(pisano_period)
 
 
-def get_fibonacci_huge(n, m):
-    len_pisano_period = get_length_of_pisano_period(m)
-    remainder = n % len_pisano_period
-    return get_fibonacci(remainder) % m
-
-
-def fibonacci_sum_squares(n):
-    return (get_fibonacci_huge(n, 10) * get_fibonacci_huge(n + 1, 10)) % 10
+def get_fibonacci(n):
+    if n <= 1:
+        return n
+    prev = 0
+    curr = 1
+    for _ in range(n - 1):
+        prev, curr = curr, prev + curr
+    return curr
 
 
 if __name__ == '__main__':
