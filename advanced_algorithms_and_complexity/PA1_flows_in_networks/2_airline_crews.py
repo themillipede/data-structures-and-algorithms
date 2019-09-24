@@ -144,22 +144,22 @@ def transform_data(g):
 
 
 def find_matching(adj_matrix):
-    n = len(adj_matrix)
-    m = len(adj_matrix[0])
-    graph = [[] for _ in range(n + m + 2)]
-    graph[0] += range(1, n + 1)
+    n = len(adj_matrix)  # Number of flights.
+    m = len(adj_matrix[0])  # Number of crews.
+    graph = [[] for _ in range(n + m + 2)]  # Two extra nodes for dummy source and dummy sink.
+    graph[0] += range(1, n + 1)  # Connect dummy source to every flight.
     for i in range(n):
         for j in range(m):
             if adj_matrix[i][j]:
-                graph[i + 1].append(j + 1 + n)
+                graph[1 + i].append(1 + n + j)  # Make the "flow" direction one-way (from flights to crews).
     for j in range(m):
-        graph[n + 1 + j].append(len(graph) - 1)
+        graph[1 + n + j].append(len(graph) - 1)  # Connect every crew to dummy sink.
     flowgraph = transform_data(graph)
-    max_flow(flowgraph, 0, n + m + 1)
+    max_flow(flowgraph, 0, n + m + 1)  # Graph, source, sink.
     matching = [-1 for _ in range(n)]
     for i, edge in enumerate(flowgraph.edges):
-        if edge.flow == 1 and edge.u in range(1, 1 + n):
-            matching[edge.u - 1] = edge.v - (1 + n)
+        if edge.flow == 1 and edge.u in range(1, 1 + n):  # Edge starts at a flight and has flow (to a crew).
+            matching[edge.u - 1] = edge.v - (1 + n)  # Recover crew and flight numbers from node numbers.
     return matching
 
 
