@@ -20,33 +20,63 @@ Output: The number of inversions in the sequence.
 import sys
 
 
-def get_number_of_inversions(a, b, left, right):
+def get_number_of_inversions0(A, B, left, right):
     number_of_inversions = 0
     if right - left <= 1:
         return number_of_inversions
-    ave = (left + right) // 2
-    number_of_inversions += get_number_of_inversions(a, b, left, ave)
-    number_of_inversions += get_number_of_inversions(a, b, ave, right)
+    mid = (left + right) // 2
+    number_of_inversions += get_number_of_inversions0(A, B, left, mid)
+    number_of_inversions += get_number_of_inversions0(A, B, mid, right)
 
-    X = a[left:ave] if ave - left <= 1 else b[left:ave]
-    Y = a[ave:right] if right - ave <= 1 else b[ave:right]
-    x, y = 0, 0
+    X = A[left:mid] if mid - left <= 1 else B[left:mid]    # Use a slice of A when dealing with single elements
+    Y = A[mid:right] if right - mid <= 1 else B[mid:right] # (at the greatest recursion depth), but B otherwise.
+    x_idx, y_idx = 0, 0
     b_index = left
-    while x < len(X) and y < len(Y):
-        if Y[y] < X[x]:
-            number_of_inversions += len(X[x:])
-            b[b_index] = Y[y]
-            y += 1
+
+    # Merge X and Y whilst adding
+    # any inversions to the count.
+    while len(X) > x_idx and len(Y) > y_idx:
+        if Y[y_idx] < X[x_idx]:
+            number_of_inversions += len(X[x_idx:])
+            B[b_index] = Y[y_idx]
+            y_idx += 1
         else:
-            b[b_index] = X[x]
-            x += 1
+            B[b_index] = X[x_idx]
+            x_idx += 1
         b_index += 1
-    if x < len(X):
-        b[b_index:right] = X[x:]
+    if x_idx < len(X):
+        B[b_index:right] = X[x_idx:]
     else:
-        b[b_index:right] = Y[y:]
+        B[b_index:right] = Y[y_idx:]
 
     return number_of_inversions
+
+
+def get_number_of_inversions(A):
+    if len(A) <= 1:
+        return A, 0
+    mid = len(A) // 2
+    X, x_inversions = get_number_of_inversions(A[:mid])
+    Y, y_inversions = get_number_of_inversions(A[mid:])
+    Z, z_inversions = merge_count_inversions(X, Y)
+    return Z, (x_inversions + y_inversions + z_inversions)
+
+
+def merge_count_inversions(X, Y):
+    Z = []
+    num_inversions = 0
+    x_idx, y_idx = 0
+    while len(X) > x_idx and len(Y) > y_idx:
+        if Y[y_idx] < X[x_idx]:
+            num_inversions += len(X[x_idx:])
+            Z.append(Y[y_idx])
+            y_idx += 1
+        else:
+            Z.append(X[x_idx])
+            x_idx += 1
+    Z += X[x_idx:]
+    Z += Y[y_idx:]
+    return Z, num_inversions
 
 
 if __name__ == '__main__':
