@@ -28,6 +28,34 @@ sys.setrecursionlimit(10**7) # max depth of recursion
 threading.stack_size(2**27)  # new thread will get stack of such size
 
 
+def is_binary_search_tree_unique(tree):
+    """
+    Checks whether the input binary tree is a binary search tree.
+    All the node values must be unique for this function to work.
+
+    Conducts in-order traversal of the tree starting at the root,
+    and checks whether the resulting sequence is in sorted order.
+    """
+    if not tree:
+        return True
+
+    def in_order(tree):
+        result = []
+
+        def in_order_traversal(root):
+            if root[1] != -1:
+                in_order_traversal(tree[root[1]])
+            result.append(root[0])
+            if root[2] != -1:
+                in_order_traversal(tree[root[2]])
+
+        in_order_traversal(tree[0])
+        return result
+
+    traversal = in_order(tree)
+    return traversal == sorted(traversal)
+
+
 def is_binary_search_tree(tree):
 
     max_lower = float('-inf')
