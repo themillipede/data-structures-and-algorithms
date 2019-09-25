@@ -16,31 +16,33 @@ Output: Print all the positions of the occurrences of P in T in ascending order 
 import random
 
 
-def poly_hash(string, prime, x):
+def poly_hash(string, prime, multiplier):
     hash = 0
-    for i in range(len(string) - 1, -1, -1):
-        hash = (hash * x + ord(string[i])) % prime
+    for char in reversed(string):
+        hash = (hash * multiplier + ord(char)) % prime
     return hash
 
 
-def precompute_hashes(text, len_pattern, prime, x):
-    h = [0 for _ in range(len(text) - len_pattern + 1)]
-    string = text[len(text) - len_pattern:len(text)]
-    h[len(text) - len_pattern] = poly_hash(string, prime, x)
+def precompute_hashes(text, len_pattern, prime, multiplier):
+    length_diff = len(text) - len_pattern
+    h = [0 for _ in range(length_diff + 1)]
+    string = text[length_diff:len(text)]
+    h[length_diff] = poly_hash(string, prime, multiplier)  # Set hash value at rightmost potential match position.
     y = 1
     for i in range(1, len_pattern + 1):
-        y = (y * x) % prime
-    for i in range(len(text) - len_pattern - 1, -1, -1):
-        h[i] = (x * h[i + 1] + ord(text[i]) - y * ord(text[i + len_pattern])) % prime
+        y = (y * multiplier) % prime
+    for i in range(length_diff - 1, -1, -1):
+        # Set hash value for each position to the left, without needing to call poly_hash each time.
+        h[i] = (multiplier * h[i + 1] + ord(text[i]) - y * ord(text[i + len_pattern])) % prime
     return h
 
 
 def get_occurrences(pattern, text):
     prime = 1000000007
-    x = random.randint(1, prime - 1)
+    multiplier = random.randint(1, prime - 1)
     result = []
-    p_hash = poly_hash(pattern, prime, x)
-    hashes = precompute_hashes(text, len(pattern), prime, x)
+    p_hash = poly_hash(pattern, prime, multiplier)
+    hashes = precompute_hashes(text, len(pattern), prime, multiplier)
     for i in range(len(text) - len(pattern) + 1):
         if p_hash != hashes[i]:
             continue

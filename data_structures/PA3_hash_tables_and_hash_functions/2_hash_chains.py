@@ -26,10 +26,6 @@ Output: Print the result of each of the "find" and "check" queries, one result p
 """
 
 
-MULTIPLIER = 263
-PRIME = 1000000007
-
-
 class Query:
     def __init__(self, query):
         self.type = query[0]
@@ -39,19 +35,23 @@ class Query:
             self.string = query[1]
 
 
-def hash_function(string, bucket_count):
-    ans = 0
-    for c in reversed(string):
-        ans = (ans * MULTIPLIER + ord(c)) % PRIME
-    return ans % bucket_count
+def poly_hash(string, prime, multiplier):
+    hash = 0
+    for char in reversed(string):
+        hash = (hash * multiplier + ord(char)) % prime
+    return hash
 
 
 def process_query(query, hash_table):
+    prime = 1000000007
+    multiplier = 263
+    bucket_count = len(hash_table)
+
     if query.type == "check":
         chain = hash_table[query.idx]
         print(' '.join(chain)) if chain else print(' ')
     else:
-        hash_key = hash_function(query.string, bucket_count)
+        hash_key = poly_hash(query.string, prime, multiplier) % bucket_count
         if query.type == 'find':
             print('yes') if query.string in hash_table[hash_key] else print('no')
         elif query.type == 'add':
