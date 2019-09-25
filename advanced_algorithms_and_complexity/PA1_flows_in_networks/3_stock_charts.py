@@ -145,24 +145,27 @@ def transform_data(g):
 
 
 def min_charts(stock_data):
-    num_stocks = len(stock_data)
-    graph = [[] for _ in range(num_stocks * 2 + 2)]
-    graph[0] += range(1, num_stocks + 1)
+    num_stocks = len(stock_data)  # Will be on both "sides" of the bipartite graph.
+    graph = [[] for _ in range(num_stocks * 2 + 2)]  # Two extra nodes for dummy source and dummy sink.
+    graph[0] += range(1, num_stocks + 1)  # Connect dummy source to every stock on the LHS.
     for i in range(num_stocks - 1):
         for j in range(i + 1, num_stocks):
-            if all([x > y for x, y in zip(stock_data[i], stock_data[j])]):
-                graph[j + 1].append(i + 1 + num_stocks)
-            elif all([x < y for x, y in zip(stock_data[i], stock_data[j])]):
-                graph[i + 1].append(j + 1 + num_stocks)
+            # For two lines a and b to appear on the same chart, they cannot overlap, which means
+            # that line a must remain either above line b or below line b at every point in time.
+            # We connect a to b via a directed edge iff a remains below b at every point in time.
+            if all([x > y for x, y in zip(stock_data[i], stock_data[j])]):  # a > b at every time point.
+                graph[j + 1].append(i + 1 + num_stocks)  # Connect stock b on the LHS to stock a on the RHS.
+            elif all([x < y for x, y in zip(stock_data[i], stock_data[j])]):  # b > a at every time point.
+                graph[i + 1].append(j + 1 + num_stocks)  # Connect stock a on the LHS to stock b on the RHS.
     for j in range(num_stocks):
-        graph[j + 1 + num_stocks].append(len(graph) - 1)
+        graph[j + 1 + num_stocks].append(len(graph) - 1)  # Connect every stock on the RHS to dummy sink.
     flowgraph = transform_data(graph)
-    max_flow(flowgraph, 0, num_stocks * 2 + 1)
+    max_flow(flowgraph, 0, num_stocks * 2 + 1)  # Graph, source, sink.
     reachable_nodes = set()
     for i, edge in enumerate(flowgraph.edges):
         if edge.flow == 1 and edge.u in range(1, 1 + num_stocks):
-            reachable_nodes.add(edge.v)
-    return num_stocks - len(reachable_nodes)
+            reachable_nodes.add(edge.v)  # Maximum flow corresponds to number of stocks that can be overlaid.
+    return num_stocks - len(reachable_nodes)  # Number of charts needed = no. stocks - no. overlaid stocks.
 
 
 if __name__ == '__main__':
