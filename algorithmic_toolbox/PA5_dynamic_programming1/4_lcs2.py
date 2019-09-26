@@ -25,13 +25,10 @@ def lcs2(a, b):
     d = [[0 for _ in range(m)] for _ in range(n)]
     for j in range(1, m):
         for i in range(1, n):
-            insertion = d[i][j - 1]
-            deletion = d[i - 1][j]
-            match = d[i - 1][j - 1] + 1
             if a[i - 1] == b[j - 1]:
-                d[i][j] = match
+                d[i][j] = d[i - 1][j - 1] + 1
             else:
-                d[i][j] = max(insertion, deletion)
+                d[i][j] = max(d[i][j - 1], d[i - 1][j])
     return d[n - 1][m - 1]
 
 
