@@ -31,12 +31,17 @@ def optimal_weight_alternative(capacity, item_weights):
 
 def optimal_weight(capacity, item_weights):
     num_items = len(item_weights)
+    # For every possible capacity between 1 and the actual capacity (inclusive),
+    # we'll record the maximum possible weight for all items considered so far.
     value = [[0 for _ in range(num_items + 1)] for _ in range(capacity + 1)]
     for i in range(1, num_items + 1):
         next_item_weight = item_weights[i - 1]
-        for w in range(1, capacity + 1):
-            value[w][i] = value[w][i - 1]
+        for w in range(1, capacity + 1):  # w is the "intermediate capacity" currently under consideration.
+            value[w][i] = value[w][i - 1]  # If we don't include the next item, this will be the weight.
             if next_item_weight <= w:
+                # If we include the next item, (w - next_item_weight) is the capacity we'll have
+                # remaining. We look up the optimal weight we can fit in this residual capacity.
+                # If this value + next_item_weight is greater than the default, then update it.
                 val = value[w - next_item_weight][i - 1] + next_item_weight
                 if val > value[w][i]:
                     value[w][i] = val
