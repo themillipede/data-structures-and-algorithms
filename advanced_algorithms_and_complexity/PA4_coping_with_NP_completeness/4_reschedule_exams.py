@@ -110,7 +110,9 @@ def is_satisfiable(clauses, num_vars):
     # If no SCC contains a variable together with its negation, then the formula must be satisfiable.
     # A valid assignment of variables can be found by iterating through the SCCs in the order output
     # by Tarjan's algorithm above (i.e. reverse topological order). For each variable that is yet to
-    # be assigned in an SCC, set its value to 1, and the value of its negation to 0.
+    # be assigned in an SCC, set its value to 1, and the value of its negation to 0. The reason we
+    # must iterate in REVERSE topological order is that only a proposition which has no implications
+    # (or only implications known to be true) can safely be made true without risking contradiction.
     assignments = {}
     for scc in scc_list:
         for i in scc:
