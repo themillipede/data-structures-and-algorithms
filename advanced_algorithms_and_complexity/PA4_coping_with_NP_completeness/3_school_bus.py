@@ -88,14 +88,19 @@ def optimal_path(graph):
             # Get the subset number for subset k_without_zero once vertex 0 is included.
             k = (k_without_zero << 1) + 1
 
+            # Iterate through all vertices in subset k except vertex 0.
             for i in range(1, n):
                 if k & (1 << i) == 0:
                     continue  # Skip vertices not in set k.
 
+                # Iterate through vertices in subset k, except vertex i (but including vertex 0).
                 for j in range(n):
                     if j == i or k & (1 << j) == 0:
-                        continue  # Skip vertices not in set k, also skip i.
+                        continue  # Skip vertices not in set k, also skip vertex i.
 
+                    # Create new subset that does not include i, and update
+                    # the minimum distance for subset k starting at vertex 0 and
+                    # ending at vertex i, with j as the penultimate vertex.
                     k_without_i = k ^ (1 << i)
                     d_ji = graph[i][j]
                     memo[k][i] = min(memo[k][i], memo[k_without_i][j] + d_ji)
