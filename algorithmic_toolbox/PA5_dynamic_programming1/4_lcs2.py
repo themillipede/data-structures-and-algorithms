@@ -25,7 +25,7 @@ def lcs2(seq_a, seq_b):
     D = [[0 for _ in range(m)] for _ in range(n)]
     for j in range(1, m):
         for i in range(1, n):
-            if seq_a[i - 1] == seq_b[j - 1]:  # i-th element of seq_a and j-th element of seq_b will add to LCS.
+            if seq_a[i - 1] == seq_b[j - 1]:  # seq_a[i - 1] and seq_b[j - 1] will add to LCS.
                 D[i][j] = D[i - 1][j - 1] + 1
             else:                             # LCS has already been identified.
                 D[i][j] = max(D[i][j - 1], D[i - 1][j])

@@ -25,15 +25,15 @@ def lcs3(a, b, c):
     n = len(a) + 1
     m = len(b) + 1
     l = len(c) + 1
-    d = [[[0 for _ in range(l)] for _ in range(m)] for _ in range(n)]
+    D = [[[0 for _ in range(l)] for _ in range(m)] for _ in range(n)]
     for k in range(1, l):
         for j in range(1, m):
             for i in range(1, n):
-                if a[i - 1] == b[j - 1] == c[k - 1]:
-                    d[i][j][k] = d[i - 1][j - 1][k - 1] + 1
-                else:
-                    d[i][j][k] = max(d[i][j][k - 1], d[i][j - 1][k], d[i - 1][j][k])
-    return d[n - 1][m - 1][l - 1]
+                if a[i - 1] == b[j - 1] == c[k - 1]:  # a[i - 1], b[j - 1], and c[k - 1] will add to LCS.
+                    D[i][j][k] = D[i - 1][j - 1][k - 1] + 1
+                else:                                 # LCS has already been identified.
+                    D[i][j][k] = max(D[i][j][k - 1], D[i][j - 1][k], D[i - 1][j][k])
+    return D[n - 1][m - 1][l - 1]
 
 
 if __name__ == '__main__':
