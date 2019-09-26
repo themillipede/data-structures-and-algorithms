@@ -19,17 +19,17 @@ Output: The length of the longest subsequence, p.
 import sys
 
 
-def lcs2(a, b):
-    n = len(a) + 1
-    m = len(b) + 1
-    d = [[0 for _ in range(m)] for _ in range(n)]
+def lcs2(seq_a, seq_b):
+    n = len(seq_a) + 1
+    m = len(seq_b) + 1
+    D = [[0 for _ in range(m)] for _ in range(n)]
     for j in range(1, m):
         for i in range(1, n):
-            if a[i - 1] == b[j - 1]:
-                d[i][j] = d[i - 1][j - 1] + 1
+            if seq_a[i - 1] == seq_b[j - 1]:
+                D[i][j] = D[i - 1][j - 1] + 1
             else:
-                d[i][j] = max(d[i][j - 1], d[i - 1][j])
-    return d[n - 1][m - 1]
+                D[i][j] = max(D[i][j - 1], D[i - 1][j])
+    return D[n - 1][m - 1]
 
 
 if __name__ == '__main__':
