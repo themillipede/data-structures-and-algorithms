@@ -18,25 +18,25 @@ Output: The edit distance between the given two strings.
 """
 
 
-def edit_distance(s, t):
-    n = len(s) + 1
-    m = len(t) + 1
-    d = [[0 for _ in range(m)] for _ in range(n)]
+def edit_distance(string1, string2):
+    n = len(string1) + 1
+    m = len(string2) + 1
+    D = [[0 for _ in range(m)] for _ in range(n)]  # Construct an n x m grid.
     for i in range(n):
-        d[i][0] = i
+        D[i][0] = i  # The edit distance from the null string to string1[:i].
     for j in range(m):
-        d[0][j] = j
+        D[0][j] = j  # The edit distance from the null string to string2[:j].
     for j in range(1, m):
         for i in range(1, n):
-            insertion = d[i][j - 1] + 1
-            deletion = d[i - 1][j] + 1
-            match = d[i - 1][j - 1]
-            mismatch = d[i - 1][j - 1] + 1
-            if s[i - 1] == t[j - 1]:
-                d[i][j] = min(insertion, deletion, match)
+            insertion = D[i][j - 1] + 1
+            deletion = D[i - 1][j] + 1
+            match = D[i - 1][j - 1]
+            mismatch = D[i - 1][j - 1] + 1
+            if string1[i - 1] == string2[j - 1]:
+                D[i][j] = min(insertion, deletion, match)
             else:
-                d[i][j] = min(insertion, deletion, mismatch)
-    return d[n - 1][m - 1]
+                D[i][j] = min(insertion, deletion, mismatch)
+    return D[n - 1][m - 1]
 
 
 if __name__ == "__main__":
