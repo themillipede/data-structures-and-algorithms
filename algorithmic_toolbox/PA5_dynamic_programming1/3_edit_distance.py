@@ -28,10 +28,10 @@ def edit_distance(string1, string2):
         D[0][j] = j  # The edit distance from the null string to string2[:j].
     for j in range(1, m):
         for i in range(1, n):
-            insertion = D[i][j - 1] + 1  # Edit distance arising from inserting j-th character of string2.
-            deletion = D[i - 1][j] + 1  # Edit distance arising from deleting i-th character of string1.
-            match = D[i - 1][j - 1]  # No edit required: string1[i - 1] == string2[j - 1].
-            mismatch = D[i - 1][j - 1] + 1  # Edit by replacing characters.
+            insertion = D[i][j - 1] + 1     # Edit distance arising from inserting j-th character of string2.
+            deletion = D[i - 1][j] + 1      # Edit distance arising from deleting i-th character of string1.
+            match = D[i - 1][j - 1]         # No edit required where string1[i - 1] == string2[j - 1].
+            mismatch = D[i - 1][j - 1] + 1  # Edit distance arising from replacement of characters.
             if string1[i - 1] == string2[j - 1]:
                 D[i][j] = min(insertion, deletion, match)
             else:
