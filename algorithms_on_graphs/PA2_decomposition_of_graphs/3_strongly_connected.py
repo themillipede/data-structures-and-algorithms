@@ -51,14 +51,14 @@ def number_of_strongly_connected_components(adj):
     visited = [0] * len(adj)
     for n, _ in enumerate(adj):
         if not visited[n]:
-            dfs_order(n, visited, stack, adj)
+            dfs_order(n, visited, stack, adj)  # Stack will pop in reverse post order.
     transpose = transpose_adjacency_list(adj)
     visited = [0] * len(adj)
     while stack:
         n = stack.pop()
         if not visited[n]:
             result += 1
-            dfs(n, visited, transpose)
+            dfs(n, visited, transpose)  # Second DFS, this time on reversed graph.
     return result
 
 
